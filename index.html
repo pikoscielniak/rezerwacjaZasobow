@@ -1,50 +1,93 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="project">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Rezerwacja zasobów</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="js/bootstrap.js"></script>
         <link rel="stylesheet" href="css/bootstrap.css">
+        <link href="css/kendo.common.min.css" rel="stylesheet">
+        <link href="css/kendo.default.min.css" rel="stylesheet">
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/angular.js"></script>
+        <script src="js/kendo.all.min.js"></script>
+        <script src="js/cultures/kendo.culture.pl-PL.min.js"></script>
+        <script src="js/angular-kendo.js"></script>
         <script src="js/main.js"></script>
+        <script type="text/javascript">
+            kendo.culture("pl-PL");
+        </script>
     </head>
-    <body>
-        <div class="container" ng-controller="ResourcesCtrl">
+    <body ng-controller="ReservationsCtrl">
+        <div class="container">
             <h1>Rezerwacja zasobów</h1>
+
             <div class="row">
                 <div class="col-lg-4">
-                    <span  class="nullable">
+                    <span class="nullable">
                         <form>
                             <select ng-model="user" ng-options="user.name for user in users">
                                 <option value="">-- Wszyscy użytkownicy --</option>
                             </select>
                         </form>
                     </span>
-                    <span  class="nullable">
+                    <span class="nullable">
                         <form>
                             <select ng-model="resource" ng-options="resource.name for resource in resources">
                                 <option value="">-- Wszystkie zasoby --</option>
                             </select>
                         </form>
                     </span>
+                    <div class="k-content">
+                        <div class="demo-section" style="width: 535px;">
+                            <label for="startDateTimePicker">Start date:</label>
+                            <input ng-model="startTime" id="startDateTimePicker" kendo-date-time-picker="start" k-options="startDataPickerOptions"/><br>
+
+                            <label for="endDateTimePicker">End date:</label>
+                            <input ng-model="endTime" id="endDateTimePicker" kendo-date-time-picker="end" k-options="endDataPickerOptions"/>
+                        </div>
+
+                        <style scoped>
+                            #example .k-datetimepicker {
+                                vertical-align: middle;
+                            }
+
+                            #example h3 {
+                                clear: both;
+                            }
+
+                            #example .code-sample {
+                                width: 60%;
+                                float:left;
+                                margin-bottom: 20px;
+                            }
+
+                            #example .output {
+                                width: 24%;
+                                margin-left: 4%;
+                                float:left;
+                            }
+                        </style>
+                    </div>
+                    <button ng-click="addReservation()">Zarezerwuj</button>
                 </div>
                 <div class="col-lg-8">
                     <table class="table">
                         <thead>
+                        <tr>
                             <th>Kto?</th>
                             <th>Co?</th>
                             <th>od kiedy?</th>
                             <th>do kiedy?</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="reservation in reservations | filter:reservationSelector">
-                                <td>{{reservation.user_id}}</td>
-                                <td>{{reservation.resource_id}}</td>
-                                <td>{{reservation.from}}</td>
-                                <td>{{reservation.to}}</td>
-                            </tr>
-                       </tbody>
+                        <tr ng-repeat="reservation in reservations | filter:reservationSelector">
+                            <td><span ng-repeat="user in users | filter:{id: reservation.user_id}">{{user.name}}</span></td>
+                            <td><span ng-repeat="resource in resources | filter:{id: reservation.resource_id}">{{resource.name}}</span></td>
+                            <td>{{reservation.startTime | date:'yyyy-MM-dd HH:mm'}}</td>
+                            <td>{{reservation.endTime | date:'yyyy-MM-dd HH:mm'}}</td>
+                        </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
