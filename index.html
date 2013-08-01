@@ -1,9 +1,53 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-
-</body>
+<html ng-app>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Rezerwacja zasobów</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+        <div class="container" ng-controller="ResourcesCtrl">
+            <h1>Rezerwacja zasobów</h1>
+            <div class="row">
+                <div class="col-lg-4">
+                    <span  class="nullable">
+                        <form>
+                            <select ng-model="user" ng-options="user.name for user in users">
+                                <option value="">-- Wszyscy użytkownicy --</option>
+                            </select>
+                        </form>
+                    </span>
+                    <span  class="nullable">
+                        <form>
+                            <select ng-model="resource" ng-options="resource.name for resource in resources">
+                                <option value="">-- Wszystkie zasoby --</option>
+                            </select>
+                        </form>
+                    </span>
+                </div>
+                <div class="col-lg-8">
+                    <table class="table">
+                        <thead>
+                            <th>Kto?</th>
+                            <th>Co?</th>
+                            <th>od kiedy?</th>
+                            <th>do kiedy?</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="reservation in reservations | filter:reservationSelector">
+                                <td>{{reservation.user_id}}</td>
+                                <td>{{reservation.resource_id}}</td>
+                                <td>{{reservation.from}}</td>
+                                <td>{{reservation.to}}</td>
+                            </tr>
+                       </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
