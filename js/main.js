@@ -18,9 +18,19 @@ function ReservationsCtrl($scope, $http) {
         $scope.resources = data;
     });
 
-    $http.get('app/reservations/reservations.json').success(function (data) {
-        $scope.reservations = data;
-    });
+//    $http.get('app/reservations/reservations.json').success(function (data) {
+//        debugger;
+//        $scope.reservations = data;
+//    });
+
+    $scope.reservations = [
+        {"id": 0, "user_id": 0, "resource_id": 0, "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", "title": "asd"},
+        {"id": 1, "user_id": 1, "resource_id": 0, "start": "2013-08-01T18:00:00.000Z", "end": "2013-08-02T18:00:00.000Z", "title": "dddd"},
+        {"id": 2, "user_id": 2, "resource_id": 1, "start": "2013-08-02T08:00:00.000Z", "end": "2013-08-02T16:00:00.000Z", "title": "dwa"},
+        {"id": 3, "user_id": 2, "resource_id": 1, "start": "2013-08-03T08:00:00.000Z", "end": "2013-08-07T08:00:00.000Z", "title": "2 1"},
+        {"id": 4, "user_id": 0, "resource_id": 2, "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", "title": "0 2"},
+        {"id": 5, "user_id": 1, "resource_id": 2, "start": "2013-08-15T14:45:00.000Z", "end": "2013-08-15T15:45:00.000Z", "title": "1 2"}
+    ];
 
     $scope.reservationSelector = function (reservation) {
         var ret = true;
@@ -43,9 +53,13 @@ function ReservationsCtrl($scope, $http) {
             alert("Musisz wybrać zasób.");
         }
         else {
-            $scope.reservations.push({user_id: $scope.user.id, resource_id: $scope.resource.id, startTime: $scope.startTime, endTime: $scope.endTime});
+            $scope.reservations.push({user_id: $scope.user.id, resource_id: $scope.resource.id, start: $scope.startTime, end: $scope.endTime});
         }
     };
+
+    $scope.removeReservation = function(obj){
+
+    }
 
     var today = new Date(kendo.format('{0:MM-dd-yyyy}', new Date()));
 
@@ -74,78 +88,43 @@ function ReservationsCtrl($scope, $http) {
         eventTemplate: $("#event-template").html(),
         majorTick: 30,
         minorTickCount: 2,
-
-        startTime: new Date("2013/6/13 07:00 AM"),
         views: [
             "day",
-            { type: "week", selected: true },
-            "month",
+            "week",
+            {type: "month", selected: true },
             "agenda"
         ],
         timezone: "Etc/UTC",
+
         dataSource: {
-            batch: true,
-            transport: {
-                read: {
-                    url: "http://demos.kendoui.com/service/tasks",
-                    dataType: "jsonp"
-                },
-                update: {
-                    url: "http://demos.kendoui.com/service/tasks/update",
-                    dataType: "jsonp"
-                },
-                create: {
-                    url: "http://demos.kendoui.com/service/tasks/create",
-                    dataType: "jsonp"
-                },
-                destroy: {
-                    url: "http://demos.kendoui.com/service/tasks/destroy",
-                    dataType: "jsonp"
-                },
-                parameterMap: function (options, operation) {
-                    if (operation !== "read" && options.models) {
-                        return {models: kendo.stringify(options.models)};
-                    }
-                }
-            },
+            data: $scope.reservations,
             schema: {
                 model: {
-                    id: "taskId",
+                    id: "id",
                     fields: {
-                        taskId: { from: "TaskID", type: "number" },
-                        title: { from: "Title", defaultValue: "No title", validation: { required: true } },
-                        start: { type: "date", from: "Start" },
-                        end: { type: "date", from: "End" },
-                        startTimezone: { from: "StartTimezone" },
-                        endTimezone: { from: "EndTimezone" },
-                        description: { from: "Description" },
-                        recurrenceId: { from: "RecurrenceID" },
-                        recurrenceRule: { from: "RecurrenceRule" },
-                        recurrenceException: { from: "RecurrenceException" },
-                        ownerId: { from: "OwnerID", defaultValue: 1 },
-                        isAllDay: { type: "boolean", from: "IsAllDay" }
+                        id: { type: "number", validation: { required: true } },
+                        title: { defaultValue: "No title", validation: { required: true } },
+                        start: { type: "date", parse: function(d){return new Date(d);}, validation: { required: true }},
+                        end: { type: "date", parse: function(d){return new Date(d);}, validation: { required: true }},
+                        user_id: {type: "number", validation: { required: true }},
+                        resource_id: {type: "number", validation: { required: true }}
                     }
                 }
             },
-            filter: {
-                logic: "or",
-                filters: [
-                    { field: "ownerId", operator: "eq", value: 1 },
-                    { field: "ownerId", operator: "eq", value: 2 }
-                ]
-            }
-        },
-        resources: [
-            {
-                field: "ownerId",
-                title: "Owner",
-                dataSource: [
-                    { text: "Alex", value: 1, color: "#f8a398" },
-                    { text: "Bob", value: 2, color: "#51a0ed" },
-                    { text: "Charlie", value: 3, color: "#56ca85" }
-                ]
-            }
-        ]
-    };
 
+        },
+
+        save: function(e){
+            $scope.$apply(function(){
+                $scope.reservations.push({id: 100, user_id:0, resource_id:0, start: e.model.start, end: e.model.end, title: e.model.title});
+            });
+        },
+        destroy: function(e){
+            $scope.$apply(function(){
+                $scope.removeReservation({e.model})
+            });
+        }
+
+
+    };
 }

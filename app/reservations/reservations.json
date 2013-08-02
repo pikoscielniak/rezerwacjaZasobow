@@ -1,8 +1,0 @@
-[
-    {"id": 0, "user_id": 0, "resource_id": 0, "startTime": "2013-08-01T15:00:00.000Z", "endTime": "2013-08-01T18:00:00.000Z"},
-    {"id": 1, "user_id": 1, "resource_id": 0, "startTime": "2013-08-01T18:00:00.000Z", "endTime": "2013-08-02T18:00:00.000Z"},
-    {"id": 2, "user_id": 2, "resource_id": 1, "startTime": "2013-08-02T08:00:00.000Z", "endTime": "2013-08-02T16:00:00.000Z"},
-    {"id": 3, "user_id": 2, "resource_id": 1, "startTime": "2013-08-03T08:00:00.000Z", "endTime": "2013-08-07T08:00:00.000Z"},
-    {"id": 4, "user_id": 0, "resource_id": 2, "startTime": "2013-08-01T15:00:00.000Z", "endTime": "2013-08-01T18:00:00.000Z"},
-    {"id": 5, "user_id": 1, "resource_id": 2, "startTime": "2013-08-15T14:45:00.000Z", "endTime": "2013-08-15T15:45:00.000Z"}
-]

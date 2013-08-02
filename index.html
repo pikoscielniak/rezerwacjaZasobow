@@ -38,57 +38,54 @@
                         </form>
                     </span>
                     <div class="k-content">
-                        <div class="demo-section" style="width: 535px;">
-                            <label for="startDateTimePicker">Start date:</label>
-                            <input ng-model="startTime" id="startDateTimePicker" kendo-date-time-picker="start" k-options="startDataPickerOptions"/><br>
+                        <label for="startDateTimePicker">Start date:</label>
+                        <input ng-model="startTime" id="startDateTimePicker" kendo-date-time-picker="start" k-options="startDataPickerOptions"/><br>
 
-                            <label for="endDateTimePicker">End date:</label>
-                            <input ng-model="endTime" id="endDateTimePicker" kendo-date-time-picker="end" k-options="endDataPickerOptions"/>
-                        </div>
-
-                        <style scoped>
-                            #example .k-datetimepicker {
-                                vertical-align: middle;
-                            }
-
-                            #example h3 {
-                                clear: both;
-                            }
-
-                            #example .code-sample {
-                                width: 60%;
-                                float:left;
-                                margin-bottom: 20px;
-                            }
-
-                            #example .output {
-                                width: 24%;
-                                margin-left: 4%;
-                                float:left;
-                            }
-                        </style>
+                        <label for="endDateTimePicker">End date:</label>
+                        <input ng-model="endTime" id="endDateTimePicker" kendo-date-time-picker="end" k-options="endDataPickerOptions"/>
                     </div>
                     <button ng-click="addReservation()">Zarezerwuj</button>
                 </div>
                 <div class="col-lg-8">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Kto?</th>
-                            <th>Co?</th>
-                            <th>od kiedy?</th>
-                            <th>do kiedy?</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="reservation in reservations | filter:reservationSelector">
-                            <td><span ng-repeat="user in users | filter:{id: reservation.user_id}">{{user.name}}</span></td>
-                            <td><span ng-repeat="resource in resources | filter:{id: reservation.resource_id}">{{resource.name}}</span></td>
-                            <td>{{reservation.startTime | date:'yyyy-MM-dd HH:mm'}}</td>
-                            <td>{{reservation.endTime | date:'yyyy-MM-dd HH:mm'}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="row">
+                        <script id="scheduler-editor" type="text/x-kendo-template" src="view/scheduler/edit.html">
+                            <h3>Edit event</h3>
+                            <p>
+                                <label>Title: <input data-bind="value: title" /></label>
+                            </p>
+                            <p>
+                                <label>Start: <input data-role="datetimepicker" data-bind="value: start" /></label>
+                            </p>
+                            <p>
+                                <label>End: <input data-role="datetimepicker" data-bind="value: end" /></label>
+                            </p>
+                        </script>
+                        <script id="event-template" type="text/x-kendo-template">
+                            <div>#: user_id #</div>
+                            <div>#: resource_id #</div>
+                        </script>
+                        <div id="kendo-scheduler" kendo-scheduler k-options="schedulerOptions"></div>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Kto?</th>
+                                <th>Co?</th>
+                                <th>od kiedy?</th>
+                                <th>do kiedy?</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="reservation in reservations | filter:reservationSelector">
+                                <td><span ng-repeat="user in users | filter:{id: reservation.user_id}">{{user.name}}</span></td>
+                                <td><span ng-repeat="resource in resources | filter:{id: reservation.resource_id}">{{resource.name}}</span></td>
+                                <td>{{reservation.start | date:'yyyy-MM-dd HH:mm'}}</td>
+                                <td>{{reservation.end | date:'yyyy-MM-dd HH:mm'}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
