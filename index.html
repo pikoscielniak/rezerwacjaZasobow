@@ -71,6 +71,7 @@
                         <table class="table">
                             <thead>
                             <tr>
+                                <th>id</th>
                                 <th>Kto?</th>
                                 <th>Co?</th>
                                 <th>od kiedy?</th>
@@ -79,6 +80,7 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat="reservation in reservations | filter:reservationSelector">
+                                <td>{{reservation.id}}</td>
                                 <td><span ng-repeat="user in users | filter:{id: reservation.user_id}">{{user.name}}</span></td>
                                 <td><span ng-repeat="resource in resources | filter:{id: reservation.resource_id}">{{resource.name}}</span></td>
                                 <td>{{reservation.start | date:'yyyy-MM-dd HH:mm'}}</td>

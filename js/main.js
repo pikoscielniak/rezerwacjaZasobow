@@ -68,14 +68,12 @@ function ReservationsCtrl($scope, $http) {
     $scope.newReservation = function(obj){
 //        if(_.filter($scope.reservations, function(res){ return res.id === obj.id; }).length < 0){
         if(obj.id === 0){
-            obj.id = _.max($scope.reservations, function(res){return res.id;}) + 1;
+            obj.id = _.max($scope.reservations, function(res){return res.id;}).id + 1;
             $scope.reservations.push(obj);
             return true;
         } else {
-            var i = _.indexOf($scope.reservations, _.find($scope.reservations, function(res){return res.id === obj.id}));
+            var i = _.indexOf($scope.reservations, _.find($scope.reservations, function(res){return res.id === obj.id;}));
             $scope.reservations[i] = obj;
-            $scope.reservations;
-            debugger;
             return false;
         }
     };
