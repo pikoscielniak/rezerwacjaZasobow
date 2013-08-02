@@ -1,4 +1,4 @@
-/*global kendo,angular,$*/
+/*global kendo,angular,$,_,alert*/
 'use strict';
 
 angular.module('project', ['kendo.directives']).
@@ -24,7 +24,7 @@ function ReservationsCtrl($scope, $http) {
 //    });
 
     $scope.reservations = [
-        {"id": 0, "user_id": 0, "resource_id": 0, "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", "title": "asd"},
+        {"id": 6, "user_id": 0, "resource_id": 0, "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", "title": "asd"},
         {"id": 1, "user_id": 1, "resource_id": 0, "start": "2013-08-01T18:00:00.000Z", "end": "2013-08-02T18:00:00.000Z", "title": "dddd"},
         {"id": 2, "user_id": 2, "resource_id": 1, "start": "2013-08-02T08:00:00.000Z", "end": "2013-08-02T16:00:00.000Z", "title": "dwa"},
         {"id": 3, "user_id": 2, "resource_id": 1, "start": "2013-08-03T08:00:00.000Z", "end": "2013-08-07T08:00:00.000Z", "title": "2 1"},
@@ -35,11 +35,11 @@ function ReservationsCtrl($scope, $http) {
     $scope.reservationSelector = function (reservation) {
         var ret = true;
         if ($scope.resource) {
-            ret &= reservation.resource_id === $scope.resource.id;
+            ret = ret && reservation.resource_id === $scope.resource.id;
         }
 
         if ($scope.user) {
-            ret &= reservation.user_id === $scope.user.id;
+            ret = ret && reservation.user_id === $scope.user.id;
         }
 
         return ret;
@@ -58,8 +58,27 @@ function ReservationsCtrl($scope, $http) {
     };
 
     $scope.removeReservation = function(obj){
+        $scope.reservations = $.grep($scope.reservations, function(value) {
+            if(value.id !== obj.id){
+                return value;
+            }
+        });
+    };
 
-    }
+    $scope.newReservation = function(obj){
+//        if(_.filter($scope.reservations, function(res){ return res.id === obj.id; }).length < 0){
+        if(obj.id === 0){
+            obj.id = _.max($scope.reservations, function(res){return res.id;}) + 1;
+            $scope.reservations.push(obj);
+            return true;
+        } else {
+            var i = _.indexOf($scope.reservations, _.find($scope.reservations, function(res){return res.id === obj.id}));
+            $scope.reservations[i] = obj;
+            $scope.reservations;
+            debugger;
+            return false;
+        }
+    };
 
     var today = new Date(kendo.format('{0:MM-dd-yyyy}', new Date()));
 
@@ -110,18 +129,19 @@ function ReservationsCtrl($scope, $http) {
                         resource_id: {type: "number", validation: { required: true }}
                     }
                 }
-            },
+            }
 
         },
 
         save: function(e){
             $scope.$apply(function(){
-                $scope.reservations.push({id: 100, user_id:0, resource_id:0, start: e.model.start, end: e.model.end, title: e.model.title});
+                $scope.newReservation(e.model);
+//                $scope.reservations.push({id: 100, user_id:0, resource_id:0, start: e.model.start, end: e.model.end, title: e.model.title});
             });
         },
-        destroy: function(e){
+        remove: function(e){
             $scope.$apply(function(){
-                $scope.removeReservation({e.model})
+                $scope.removeReservation(e.event);
             });
         }
 
