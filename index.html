@@ -49,45 +49,34 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="row">
-                        <script id="scheduler-editor" type="text/x-kendo-template" src="view/scheduler/edit.html">
+                        <div id="scheduler-editor" style="display: none">
                             <h3>Edit event</h3>
                             <p>
                                 <label>Title: <input data-bind="value: title" /></label>
                             </p>
                             <p>
-                                <label>Start: <input data-role="datetimepicker" data-bind="value: start" /></label>
+                                <select ng-model="user" data-bind="value: user_id" ng-options="user.name for user in users"></select>
+                                <select ng-model="resource" data-bind="value: resource_id" ng-options="resource.name for resource in resources"></select>
                             </p>
                             <p>
-                                <label>End: <input data-role="datetimepicker" data-bind="value: end" /></label>
+                                <label>Początek: <input data-role="datetimepicker" data-bind="value: start" /></label>
                             </p>
-                        </script>
+                            <p>
+                                <label>Koniec: <input data-role="datetimepicker" data-bind="value: end" /></label>
+                            </p>
+                            <p>
+                                Opis: <textarea data-bind="value: description"></textarea>
+                            </p>
+                        </div>
+
                         <script id="event-template" type="text/x-kendo-template">
-                            <div>#: user_id #</div>
-                            <div>#: resource_id #</div>
+                            <div>#: title #</div>
                         </script>
-                        <div id="kendo-scheduler" kendo-scheduler k-options="schedulerOptions"></div>
+
+                        <div id="kendo-scheduler" kendo-scheduler="scheduler" k-options="schedulerOptions"></div>
                     </div>
                     <div class="row">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>Kto?</th>
-                                <th>Co?</th>
-                                <th>od kiedy?</th>
-                                <th>do kiedy?</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="reservation in reservations | filter:reservationSelector">
-                                <td>{{reservation.id}}</td>
-                                <td><span ng-repeat="user in users | filter:{id: reservation.user_id}">{{user.name}}</span></td>
-                                <td><span ng-repeat="resource in resources | filter:{id: reservation.resource_id}">{{resource.name}}</span></td>
-                                <td>{{reservation.start | date:'yyyy-MM-dd HH:mm'}}</td>
-                                <td>{{reservation.end | date:'yyyy-MM-dd HH:mm'}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div ng-include src="'view/table/index.html'" ></div>
                     </div>
                 </div>
             </div>
