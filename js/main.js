@@ -14,21 +14,27 @@ function ReservationsCtrl($scope, $http) {
         $scope.users = data;
     });
 
-    $http.get('app/resources/resources.json').success(function (data) {
-        $scope.resources = data;
-    });
+//    $http.get('app/resources/resources.json').success(function (data) {
+//        $scope.resources = data;
+//    });
 
 //    $http.get('app/reservations/reservations.json').success(function (data) {
 //        debugger;
 //        $scope.reservations = data;
 //    });
 
+    $scope.resources = [
+        {"id": 3, "name": "drukarka", "color": "orange"},
+        {"id": 1, "name": "samochód", "color": "blue"},
+        {"id": 2, "name": "projektor", "color": "yellow"}
+    ];
+
     $scope.reservations = [
-        {"id": 6, "user_id": 0, "user_name":"Franek", "resource_id": 0, "resource_name": "drukarka", "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", "title": "asd", "description":""},
-        {"id": 1, "user_id": 1, "user_name":"Maciek", "resource_id": 0, "resource_name": "drukarka", "start": "2013-08-01T18:00:00.000Z", "end": "2013-08-02T18:00:00.000Z", "title": "dddd", "description":""},
+        {"id": 6, "user_id": 3, "user_name":"Franek", "resource_id": 3, "resource_name": "drukarka", "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", "title": "asd", "description":""},
+        {"id": 1, "user_id": 1, "user_name":"Maciek", "resource_id": 3, "resource_name": "drukarka", "start": "2013-08-01T18:00:00.000Z", "end": "2013-08-02T18:00:00.000Z", "title": "dddd", "description":""},
         {"id": 2, "user_id": 2, "user_name":"Wojtek", "resource_id": 1, "resource_name": "samochód", "start": "2013-08-02T08:00:00.000Z", "end": "2013-08-02T16:00:00.000Z", "title": "dwa", "description":""},
         {"id": 3, "user_id": 2, "user_name":"Wojtek", "resource_id": 1, "resource_name": "samochód", "start": "2013-08-03T08:00:00.000Z", "end": "2013-08-07T08:00:00.000Z", "title": "2 1", "description":""},
-        {"id": 4, "user_id": 0, "user_name":"Franek", "resource_id": 2, "resource_name": "projektor", "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", "title": "0 2", "description":""},
+        {"id": 4, "user_id": 3, "user_name":"Franek", "resource_id": 2, "resource_name": "projektor", "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", "title": "0 2", "description":""},
         {"id": 5, "user_id": 1, "user_name":"Maciek", "resource_id": 2, "resource_name": "projektor", "start": "2013-08-15T14:45:00.000Z", "end": "2013-08-15T15:45:00.000Z", "title": "1 2", "description":""}
     ];
 
@@ -68,7 +74,6 @@ function ReservationsCtrl($scope, $http) {
     $scope.newReservation = function(obj){
         obj.user_name = $scope.findUser(obj.user_id).name;
         obj.resource_name = $scope.findResource(obj.resource_id).name;
-
         if(_.find($scope.reservations, function(a){return a.id === obj.id;}) === undefined){
             obj.id = _.max($scope.reservations, function(res){return res.id;}).id + 1;
             $scope.reservations.push(obj);
@@ -142,6 +147,15 @@ function ReservationsCtrl($scope, $http) {
             }
         },
 
+        resources: [
+            {
+                field: "resource_id",
+                dataTextField: "name",
+                dataValueField: "id",
+                dataSource: $scope.resources
+            }
+        ],
+
         save: function(e){
             $scope.$apply(function(){
                 $scope.newReservation(e.model);
@@ -158,16 +172,19 @@ function ReservationsCtrl($scope, $http) {
 
     };
 
-    $scope.addDataFilter = function(){
+    $scope.addDataFilter = function () {
         var filter = {
             logic: "and",
-            filters: [
-                {field: "user_id", operator: "eq", value: $scope.user.id},
-                {field: "resource_id", operator: "eq", value: $scope.resource.id}
-            ]
+            filters: []
         };
 
+        if($scope.user){
+            filter.filters.push({field: "user_id", operator: "eq", value: $scope.user.id});
+        }
+
+        if($scope.resource){
+            filter.filters.push({field: "resource_id", operator: "eq", value: $scope.resource.id});
+        }
         $scope.scheduler.dataSource.filter(filter);
-        debugger;
     };
 }

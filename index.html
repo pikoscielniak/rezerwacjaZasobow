@@ -26,14 +26,14 @@
                 <div class="col-lg-4">
                     <span class="nullable">
                         <form>
-                            <select ng-model="user" ng-options="user.name for user in users">
+                            <select ng-change="addDataFilter()" ng-model="user" ng-options="user.name for user in users">
                                 <option value="">-- Wszyscy użytkownicy --</option>
                             </select>
                         </form>
                     </span>
                     <span class="nullable">
                         <form>
-                            <select ng-model="resource" ng-options="resource.name for resource in resources">
+                            <select ng-change="addDataFilter()" ng-model="resource" ng-options="resource.name for resource in resources">
                                 <option value="">-- Wszystkie zasoby --</option>
                             </select>
                         </form>
@@ -46,7 +46,6 @@
                         <input ng-model="endTime" id="endDateTimePicker" kendo-date-time-picker="end" k-options="endDataPickerOptions"/>
                     </div>
                     <button ng-click="addReservation()">Zarezerwuj</button>
-                    <button ng-click="addDataFilter()">Filtruj</button>
                 </div>
                 <div class="col-lg-8">
                     <div class="row">
@@ -56,8 +55,12 @@
                                 <label>Title: <input data-bind="value: title" /></label>
                             </p>
                             <p>
-                                <select ng-model="user" data-bind="value: user_id" ng-options="user.name for user in users"></select>
-                                <select ng-model="resource" data-bind="value: resource_id" ng-options="resource.name for resource in resources"></select>
+                                <select data-bind="value: user_id">
+                                    <option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</option>
+                                </select>
+                                <select data-bind="value: resource_id">
+                                    <option ng-repeat="res in resources" value="{{res.id}}">{{res.name}}</option>
+                                </select>
                             </p>
                             <p>
                                 <label>Początek: <input data-role="datetimepicker" data-bind="value: start" /></label>
