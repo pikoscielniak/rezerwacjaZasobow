@@ -157,4 +157,17 @@ function ReservationsCtrl($scope, $http) {
         }
 
     };
+
+    $scope.addDataFilter = function(){
+        var filter = {
+            logic: "and",
+            filters: [
+                {field: "user_id", operator: "eq", value: $scope.user.id},
+                {field: "resource_id", operator: "eq", value: $scope.resource.id}
+            ]
+        };
+
+        $scope.scheduler.dataSource.filter(filter);
+        debugger;
+    };
 }
