@@ -6,85 +6,26 @@
         <link rel="stylesheet" href="css/bootstrap.css">
         <link href="css/kendo.common.min.css" rel="stylesheet">
         <link href="css/kendo.default.min.css" rel="stylesheet">
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/angular.js"></script>
-        <script src="js/kendo.all.min.js"></script>
-        <script src="js/cultures/kendo.culture.pl-PL.min.js"></script>
-        <script src="js/angular-kendo.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/underscore.min.js"></script>
+        <script src="js/lib/jquery.js"></script>
+        <script src="js/lib/bootstrap.min.js"></script>
+        <script src="js/lib/angular.js"></script>
+        <script src="js/lib/kendo.all.min.js"></script>
+        <script src="js/lib/cultures/kendo.culture.pl-PL.min.js"></script>
+        <script src="js/lib/angular-kendo.js"></script>
+        <script src="js/lib/underscore.min.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/controllers/reservationsController.js"></script>
+        <script src="js/services/reservationsService.js"></script>
+        <script src="js/services/usersService.js"></script>
+        <script src="js/services/resourcesService.js"></script>
+        <script src="js/services/schedulerConfigService.js"></script>
         <script type="text/javascript">
             kendo.culture("pl-PL");
         </script>
     </head>
-    <body ng-controller="ReservationsCtrl">
+    <body>
         <div class="container">
-            <h1>Rezerwacja zasobów</h1>
-
-            <div class="row">
-                <div class="col-lg-4">
-                    <span class="nullable">
-                        <form>
-                            <select ng-change="addDataFilter()" ng-model="user" ng-options="user.name for user in users">
-                                <option value="">-- Wszyscy użytkownicy --</option>
-                            </select>
-                        </form>
-                    </span>
-                    <span class="nullable">
-                        <form>
-                            <select ng-change="addDataFilter()" ng-model="resource" ng-options="resource.name for resource in resources">
-                                <option value="">-- Wszystkie zasoby --</option>
-                            </select>
-                        </form>
-                    </span>
-                    <div class="k-content">
-                        <label for="startDateTimePicker">Start date:</label>
-                        <input ng-model="startTime" id="startDateTimePicker" kendo-date-time-picker="start" k-options="startDataPickerOptions"/><br>
-
-                        <label for="endDateTimePicker">End date:</label>
-                        <input ng-model="endTime" id="endDateTimePicker" kendo-date-time-picker="end" k-options="endDataPickerOptions"/>
-                    </div>
-                    <button ng-click="addReservation()">Zarezerwuj</button>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        <div id="scheduler-editor" style="display: none">
-                            <h3>Edit event</h3>
-                            <p>
-                                <label>Title: <input data-bind="value: title" /></label>
-                            </p>
-                            <p>
-                                <select data-bind="value: user_id">
-                                    <option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</option>
-                                </select>
-                                <select name="resource" data-bind="value: resource_id">
-                                    <!--<option ng-repeat="res in resources" value="{{res.id}}" ng-selected="resourceSelected(res.id)">{{res.name}}</option>-->
-                                    <option ng-repeat="res in resources" value="{{res.id}}">{{res.name}}</option>
-                                </select>
-                            </p>
-                            <p>
-                                <label>Początek: <input data-role="datetimepicker" data-bind="value: start" /></label>
-                            </p>
-                            <p>
-                                <label>Koniec: <input data-role="datetimepicker" data-bind="value: end" /></label>
-                            </p>
-                            <p>
-                                Opis: <textarea data-bind="value: description"></textarea>
-                            </p>
-                        </div>
-
-                        <script id="event-template" type="text/x-kendo-template">
-                            <div>#: title #</div>
-                        </script>
-
-                        <div id="kendo-scheduler" kendo-scheduler="scheduler" k-options="schedulerOptions"></div>
-                    </div>
-                    <div class="row">
-                        <div ng-include src="'view/table/index.html'" ></div>
-                    </div>
-                </div>
-            </div>
+            <div ng-view></div>
         </div>
     </body>
 </html>
