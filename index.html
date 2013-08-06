@@ -58,7 +58,8 @@
                                 <select data-bind="value: user_id">
                                     <option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</option>
                                 </select>
-                                <select data-bind="value: resource_id">
+                                <select name="resource" data-bind="value: resource_id">
+                                    <!--<option ng-repeat="res in resources" value="{{res.id}}" ng-selected="resourceSelected(res.id)">{{res.name}}</option>-->
                                     <option ng-repeat="res in resources" value="{{res.id}}">{{res.name}}</option>
                                 </select>
                             </p>
