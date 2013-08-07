@@ -13,6 +13,8 @@
     <script src="js/lib/cultures/kendo.culture.pl-PL.min.js"></script>
     <script src="js/lib/angular-kendo.js"></script>
     <script src="js/lib/underscore.min.js"></script>
+
+    <!-- wijmo events calendar -->
     <!--jQuery References-->
     <script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js" type="text/javascript"></script>
@@ -24,14 +26,20 @@
     <script src="http://cdn.wijmo.com/jquery.wijmo-open.all.3.20132.8.min.js" type="text/javascript"></script>
     <script src="http://cdn.wijmo.com/jquery.wijmo-pro.all.3.20132.8.min.js" type="text/javascript"></script>
 
+    <!-- dhx scheduler -->
+    <script src="js/lib/dhtmlxscheduler.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/dhxtml/dhtmlxscheduler.css" type="text/css">
 
     <script src="js/app.js"></script>
     <script src="js/controllers/applicationController.js"></script>
     <script src="js/controllers/kendoSchedulerController.js"></script>
+    <script src="js/controllers/eventsCalendarController.js"></script>
+    <script src="js/controllers/dhxSchedulerController.js"></script>
     <script src="js/services/reservationsService.js"></script>
     <script src="js/services/usersService.js"></script>
     <script src="js/services/resourcesService.js"></script>
     <script src="js/services/schedulerConfigService.js"></script>
+    <script src="js/services/eventsCalendarConfigService.js"></script>
     <script src="js/filters/reservationsFilter.js"></script>
     <script type="text/javascript">
         kendo.culture("pl-PL");
@@ -43,6 +51,7 @@
         <h1>Rezerwacja zasobów</h1>
         <a href="#/kendoScheduler">kendo scheduler</a> |
         <a href="#/eventsCalendar">events calendar</a> |
+        <a href="#/dhxScheduler">dhx Scheduler</a> |
     </div>
 
 
