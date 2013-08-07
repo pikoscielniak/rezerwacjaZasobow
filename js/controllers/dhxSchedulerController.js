@@ -6,7 +6,6 @@ angular.module('project.controllers')
             "use strict";
 
             var loadReservations = function(){
-                debugger;
                 var reserv = reservations.get();
                 var data = _.map(reserv, function(reservation){
                     return {
@@ -35,8 +34,24 @@ angular.module('project.controllers')
                 refreshDhxScheduler();
             });
 
+            var refreshCallback = function(func){
+                return function(a){
+                    var ret = func(a);
+
+                    $rootScope.$broadcast('refresh');
+                    return ret;
+                };
+            };
+
             scheduler.init('scheduler_here', new Date(),"month");
             scheduler.parse(loadReservations(), 'json');
+
+            scheduler.attachEvent("onEventDeleted", function(id){
+                var i = parseInt(id);
+                var res = reservations.find(i);
+                reservations.destroy(res);
+                $rootScope.$broadcast('refresh');
+            });
 
 
         }]);

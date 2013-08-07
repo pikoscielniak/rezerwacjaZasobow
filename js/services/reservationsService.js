@@ -21,7 +21,7 @@ angular.module('project.services')
             var res = _.find(reservations, function (reservation) {
                 return reservation.id === id;
             });
-            return res || false;
+            return res || null;
         };
 
         var update = function (reservation) {
