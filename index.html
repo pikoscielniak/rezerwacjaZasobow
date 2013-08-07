@@ -1,31 +1,74 @@
 <!DOCTYPE html>
 <html ng-app="project">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Rezerwacja zasobów</title>
-        <link rel="stylesheet" href="css/bootstrap.css">
-        <link href="css/kendo.common.min.css" rel="stylesheet">
-        <link href="css/kendo.default.min.css" rel="stylesheet">
-        <script src="js/lib/jquery.js"></script>
-        <script src="js/lib/bootstrap.min.js"></script>
-        <script src="js/lib/angular.js"></script>
-        <script src="js/lib/kendo.all.min.js"></script>
-        <script src="js/lib/cultures/kendo.culture.pl-PL.min.js"></script>
-        <script src="js/lib/angular-kendo.js"></script>
-        <script src="js/lib/underscore.min.js"></script>
-        <script src="js/app.js"></script>
-        <script src="js/controllers/reservationsController.js"></script>
-        <script src="js/services/reservationsService.js"></script>
-        <script src="js/services/usersService.js"></script>
-        <script src="js/services/resourcesService.js"></script>
-        <script src="js/services/schedulerConfigService.js"></script>
-        <script type="text/javascript">
-            kendo.culture("pl-PL");
-        </script>
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Rezerwacja zasobów</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link href="css/kendo.common.min.css" rel="stylesheet">
+    <link href="css/kendo.default.min.css" rel="stylesheet">
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/angular.js"></script>
+    <script src="js/lib/kendo.all.min.js"></script>
+    <script src="js/lib/cultures/kendo.culture.pl-PL.min.js"></script>
+    <script src="js/lib/angular-kendo.js"></script>
+    <script src="js/lib/underscore.min.js"></script>
+    <!--jQuery References-->
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js" type="text/javascript"></script>
+    <!--Theme-->
+    <link href="http://cdn.wijmo.com/themes/aristo/jquery-wijmo.css" rel="stylesheet" type="text/css"/>
+    <!--Wijmo Widgets CSS-->
+    <link href="http://cdn.wijmo.com/jquery.wijmo-pro.all.3.20132.8.min.css" rel="stylesheet" type="text/css"/>
+    <!--Wijmo Widgets JavaScript-->
+    <script src="http://cdn.wijmo.com/jquery.wijmo-open.all.3.20132.8.min.js" type="text/javascript"></script>
+    <script src="http://cdn.wijmo.com/jquery.wijmo-pro.all.3.20132.8.min.js" type="text/javascript"></script>
+
+
+    <script src="js/app.js"></script>
+    <script src="js/controllers/applicationController.js"></script>
+    <script src="js/controllers/kendoSchedulerController.js"></script>
+    <script src="js/services/reservationsService.js"></script>
+    <script src="js/services/usersService.js"></script>
+    <script src="js/services/resourcesService.js"></script>
+    <script src="js/services/schedulerConfigService.js"></script>
+    <script src="js/filters/reservationsFilter.js"></script>
+    <script type="text/javascript">
+        kendo.culture("pl-PL");
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1>Rezerwacja zasobów</h1>
+        <a href="#/kendoScheduler">kendo scheduler</a> |
+        <a href="#/eventsCalendar">events calendar</a> |
+    </div>
+
+
+    <div class="row" ng-controller="applicationController">
+        <div class="col-lg-3">
+            <div class="row">
+            <span class="nullable">
+                <select ng-change="filterData()" ng-model="user" ng-options="user.name for user in users">
+                    <option value="">-- Wszyscy użytkownicy --</option>
+                </select>
+            </span>
+            <span class="nullable">
+                <select ng-change="filterData()" ng-model="resource"
+                        ng-options="resource.name for resource in resources">
+                    <option value="">-- Wszystkie zasoby --</option>
+                </select>
+            </span>
+            </div>
+            <div class="row">
+                <div ng-include src="'view/table/index.html'"></div>
+            </div>
+        </div>
+        <div class="col-lg-9">
             <div ng-view></div>
         </div>
-    </body>
+    </div>
+</div>
+</body>
 </html>

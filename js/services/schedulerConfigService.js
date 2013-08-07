@@ -79,7 +79,6 @@ angular.module('project.services')
 //            sel.val($scope.resource && $scope.resource.id);
 //                $("#scheduler-editor").find('select[name="resource"]').find('option[value="'+($scope.resource && $scope.resource.id)+'"]').attr("selected",true);
 
-
             return $("#scheduler-editor").html();
         };
 

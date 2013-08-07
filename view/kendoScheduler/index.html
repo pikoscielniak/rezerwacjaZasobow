@@ -1,0 +1,35 @@
+<div class="row">
+    <div id="scheduler-editor" style="display: none">
+        <h3>Edit event</h3>
+        <p>
+            <label>Title: <input data-bind="value: title"/></label>
+        </p>
+
+        <p>
+            <select data-bind="value: user_id">
+                <option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</option>
+            </select>
+            <select name="resource" data-bind="value: resource_id">
+                <!--<option ng-repeat="res in resources" value="{{res.id}}" ng-selected="resourceSelected(res.id)">{{res.name}}</option>-->
+                <option ng-repeat="res in resources" value="{{res.id}}">{{res.name}}</option>
+            </select>
+        </p>
+        <p>
+            <label>Początek: <input kendo-date-time-picker data-bind="value: start"/></label>
+        </p>
+
+        <p>
+            <label>Koniec: <input kendo-date-time-picker data-bind="value: end"/></label>
+        </p>
+
+        <p>
+            Opis: <textarea data-bind="value: description"></textarea>
+        </p>
+    </div>
+
+    <div id="event-template" style="display: none">
+        <div>#: title #</div>
+    </div>
+
+    <div id="kendo-scheduler" kendo-scheduler="scheduler" k-options="schedulerOptions"></div>
+</div>
