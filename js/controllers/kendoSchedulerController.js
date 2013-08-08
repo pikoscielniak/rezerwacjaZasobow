@@ -1,14 +1,13 @@
 /*global _,$,angular */
 
 angular.module('project.controllers')
-    .controller('kendoSchedulerController', ['$scope', 'reservations', 'schedulerConfig', '$rootScope',
-        function ($scope, reservations, schedulerConfig, $rootScope) {
+    .controller('kendoSchedulerController', ['$scope', 'reservations', 'schedulerConfig', '$rootScope', 'filterData',
+        function ($scope, reservations, schedulerConfig, $rootScope, filterData) {
         "use strict";
 
         var refreshScheduler = function() {
             var dataSource = schedulerConfig.generateSchedulerDataSource();
             $scope.scheduler.setDataSource(dataSource);
-            schedulerConfig.filterData($scope.scheduler, $scope.user, $scope.resource);
         };
 
         var refreshCallback = function(func){
@@ -22,16 +21,12 @@ angular.module('project.controllers')
 
         $scope.schedulerOptions = schedulerConfig.getSchedulerOptions(refreshCallback(reservations.save), refreshCallback(reservations.destroy));
 
-        $scope.$on('filterReservations', function (e, value) {
-            filterData(value.user, value.resource);
+        $scope.$on('filterReservations', function (e) {
+            refreshScheduler();
         });
 
         $scope.$on('refresh', function(e, value){
             refreshScheduler();
         });
-
-        var filterData = function (user, resource) {
-            schedulerConfig.filterData($scope.scheduler, user, resource);
-        };
 
     }]);

@@ -1,8 +1,8 @@
 /*global _,$,angular */
 
 angular.module('project.controllers')
-    .controller('applicationController', ['$scope', 'reservations', 'resources', 'users', '$rootScope',
-        function ($scope, reservations, resources, users, $rootScope) {
+    .controller('applicationController', ['$scope', 'reservations', 'resources', 'users', '$rootScope', 'filterData',
+        function ($scope, reservations, resources, users, $rootScope, filterData) {
         "use strict";
 
         loadReservations();
@@ -27,14 +27,20 @@ angular.module('project.controllers')
                 $scope.reservations = reservations.get();
         }
 
-        $scope.filterData = function () {
-            $rootScope.$broadcast('filterReservations', {user: $scope.user, resource: $scope.resource});
-        };
-
         $scope.$on('refresh', function (e) {
             $scope.$apply(function(){
                 loadReservations();
             });
+        });
+
+        $scope.$watch('user', function(user){
+            filterData.setUser(user);
+            $rootScope.$broadcast('filterReservations');
+        });
+            
+        $scope.$watch('resource', function(resource){
+            filterData.setResource(resource);
+            $rootScope.$broadcast('filterReservations');
         });
 
     }]);

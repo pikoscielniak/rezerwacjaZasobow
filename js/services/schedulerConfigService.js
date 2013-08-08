@@ -1,22 +1,8 @@
 /*global angular,_,$,kendo */
 
 angular.module('project.services')
-    .factory('schedulerConfig', ['resources', 'reservations', function(resources, reservations){
+    .factory('schedulerConfig', ['resources', 'reservations', 'filterData', function(resources, reservations, filterData){
         "use strict";
-
-        var filterData = function(scheduler, user, resource){
-            var filter = {
-                logic: "and",
-                filters: []
-            };
-            if (user) {
-                filter.filters.push({field: "user_id", operator: "eq", value: user.id});
-            }
-            if (resource) {
-                filter.filters.push({field: "resource_id", operator: "eq", value: resource.id});
-            }
-            scheduler.dataSource.filter(filter);
-        };
 
         var today = new Date(kendo.format('{0:MM-dd-yyyy}', new Date()));
 
@@ -45,7 +31,7 @@ angular.module('project.services')
 
         var generateSchedulerDataSource = function(){
             return new kendo.data.SchedulerDataSource({
-                data: reservations.get(),
+                data: reservations.where({user: filterData.getUser(), resource: filterData.getResource()}),
                 schema: dataSourceSchema()
             });
         };
@@ -112,7 +98,6 @@ angular.module('project.services')
 
         return {
             getSchedulerOptions: getSchedulerOptions,
-            filterData : filterData,
             generateSchedulerDataSource: generateSchedulerDataSource
         };
     }]);

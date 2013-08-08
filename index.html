@@ -41,6 +41,7 @@
     <script src="js/services/resourcesService.js"></script>
     <script src="js/services/schedulerConfigService.js"></script>
     <script src="js/services/eventsCalendarConfigService.js"></script>
+    <script src="js/services/filterDataService.js"></script>
     <script type="text/javascript">
         kendo.culture("pl-PL");
     </script>
@@ -59,12 +60,12 @@
         <div class="col-lg-3">
             <div class="row">
             <span class="nullable">
-                <select ng-change="filterData()" ng-model="user" ng-options="user.name for user in users">
+                <select ng-model="user" ng-options="user.name for user in users">
                     <option value="">-- Wszyscy użytkownicy --</option>
                 </select>
             </span>
             <span class="nullable">
-                <select ng-change="filterData()" ng-model="resource"
+                <select ng-model="resource"
                         ng-options="resource.name for resource in resources">
                     <option value="">-- Wszystkie zasoby --</option>
                 </select>

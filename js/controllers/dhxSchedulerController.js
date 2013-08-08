@@ -1,14 +1,12 @@
 /*global _,$,angular,scheduler */
 
 angular.module('project.controllers')
-    .controller('dhxSchedulerController', ['$scope', 'reservations', 'eventsCalendarConfig', '$rootScope', 'resources',
-        function ($scope, reservations, eventsCalendarConfig, $rootScope, resources) {
+    .controller('dhxSchedulerController', ['$scope', 'reservations', 'eventsCalendarConfig', '$rootScope', 'resources', 'filterData',
+        function ($scope, reservations, eventsCalendarConfig, $rootScope, resources, filterData) {
             "use strict";
 
-            var selectedUser, selectedResource;
-
             var loadReservations = function(){
-                var reserv = reservations.where({user:selectedUser, resource:selectedResource});
+                var reserv = reservations.where({user:filterData.getUser(), resource:filterData.getResource()});
                 var data = _.map(reserv, function(reservation){
                     return parseEvent(reservation);
                 });
@@ -77,8 +75,6 @@ angular.module('project.controllers')
 
 
             $scope.$on('filterReservations', function (e, value) {
-                selectedResource = value.resource;
-                selectedUser = value.user;
                 refreshDhxScheduler();
             });
 
