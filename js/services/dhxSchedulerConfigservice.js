@@ -77,8 +77,12 @@ angular.module('project.services')
                     });
                 };
 
-                scheduler.attachEvent("onEventDeleted", function(id){
+                scheduler.attachEvent("onBeforeEventDelete", function(id,e){
                     destroyEvent(id);
+                    return true;
+                });
+
+                scheduler.attachEvent("onEventDeleted", function(id){
                     $rootScope.$broadcast('refresh');
                     return true;
                 });
