@@ -18,9 +18,7 @@ angular.module('project.services')
         };
 
         var find = function (id) {
-            var res = _.find(reservations, function (reservation) {
-                return reservation.id === id;
-            });
+            var res = _.findWhere(reservations, {id: id});
             return res || null;
         };
 
@@ -28,7 +26,7 @@ angular.module('project.services')
             var res = find(reservation.id);
             var i = _.indexOf(reservations, res);
             reservations[i] = reservation;
-            return true;
+            return reservation;
         };
 
         var maxId = function () {
@@ -48,8 +46,8 @@ angular.module('project.services')
                 id: reservation.id,
                 user_id: reservation.user_id,
                 resource_id: reservation.resource_id,
-                start: reservation.start,
-                end: reservation.end,
+                start: new Date(reservation.start),
+                end: new Date(reservation.end),
                 title: reservation.title,
                 description: reservation.description
             };
@@ -81,12 +79,33 @@ angular.module('project.services')
         };
 
         var destroy = function (reservation) {
-            reservations = $.grep(reservations, function (value) {
-                if (value.id !== reservation.id) {
-                    return value;
+            if(reservation && reservation.id){
+                reservations = $.grep(reservations, function (value) {
+                    if (value.id !== reservation.id) {
+                        return value;
+                    }
+                });
+                return reservation;
+            } else {
+                return false;
+            }
+        };
+
+        var where = function(properties){
+            if(properties.user || properties.resource){
+                var opt = {};
+                if(properties.user){
+                    opt.user_id = properties.user.id;
                 }
-            });
-            return reservation;
+
+                if(properties.resource){
+                    opt.resource_id = properties.resource.id;
+                }
+
+                return _.where(reservations, opt);
+            } else {
+                return reservations;
+            }
         };
 
         return {
@@ -95,6 +114,7 @@ angular.module('project.services')
             update: update,
             create: create,
             destroy: destroy,
-            save: save
+            save: save,
+            where: where
         };
     }]);
