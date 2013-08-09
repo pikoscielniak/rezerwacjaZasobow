@@ -44,16 +44,16 @@ angular.module('project.services')
         var validate = function(reservation){
             var newReservation = {
                 id: reservation.id,
-                user_id: reservation.user_id,
-                resource_id: reservation.resource_id,
+                user_id: parseInt(reservation.user_id,10),
+                resource_id: parseInt(reservation.resource_id,10),
                 start: new Date(reservation.start),
                 end: new Date(reservation.end),
                 title: reservation.title,
                 description: reservation.description
             };
 
-            var user = users.find(reservation.user_id);
-            var resource = resources.find(reservation.resource_id);
+            var user = users.find(newReservation.user_id);
+            var resource = resources.find(newReservation.resource_id);
 
             if(user && resource){
                 newReservation.user_name = user.name;
