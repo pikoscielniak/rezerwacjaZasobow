@@ -106,6 +106,11 @@ angular.module('project.services')
                     return true;
                 });
 
+//                scheduler.config.edit_on_create = true;
+                scheduler.config.details_on_create=true;
+                scheduler.config.details_on_dblclick = true;
+                scheduler.config.icons_select = ['icon_details', 'icon_delete'];
+
                 scheduler.locale.labels.section_title = "Tytuł";
                 scheduler.locale.labels.section_user = "Użytkownik";
                 scheduler.locale.labels.section_resource = "Zasób";
