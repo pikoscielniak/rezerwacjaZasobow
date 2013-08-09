@@ -1,7 +1,7 @@
 /*global angular,_,$,scheduler */
 
 angular.module('project.services')
-    .factory('dhxSchedulerConfig', ['resources', 'reservations', 'filterData', function(resources, reservations, filterData){
+    .factory('dhxSchedulerConfig', ['resources', 'reservations', 'users', 'filterData', function(resources, reservations, users, filterData){
         "use strict";
 
         var firstInit=true;
@@ -95,9 +95,6 @@ angular.module('project.services')
 
                 scheduler.attachEvent("onEventSave",function(id,event,isNewEvent){
                     if(isNewEvent){
-                        event.user_id = 1;
-                        event.resource_id = 2;
-                        event.title = "title";
                         saveEvent(id, event);
                     }
 
@@ -108,6 +105,21 @@ angular.module('project.services')
                     $rootScope.$broadcast('refresh');
                     return true;
                 });
+
+                scheduler.locale.labels.section_title = "Tytuł";
+                scheduler.locale.labels.section_user = "Użytkownik";
+                scheduler.locale.labels.section_resource = "Zasób";
+
+                var usersOpt = _.map(users.get(), function(user){ return {key: user.id, label:user.name}; });
+                var resourcesOpt = _.map(resources.get(), function(resource){ return {key: resource.id, label: resource.name}; });
+
+                scheduler.config.lightbox.sections=[
+                    { name:"title",    height:43, type:"textarea", map_to:"title"},
+                    { name:"description", height:50, type:"textarea", map_to:"text", focus:true},
+                    { name:"user", height:25, type:"select", map_to:"user_id", options: usersOpt},
+                    { name:"resource", height:25, type:"select", map_to:"resource_id", options: resourcesOpt},
+                    { name:"time",        height:72, type:"time",     map_to:"auto"}
+                ];
             }
 
             scheduler.init('scheduler_here', new Date(),"month");
