@@ -30,9 +30,10 @@ angular.module('project.services')
         };
 
         var maxId = function () {
-            return _.max(reservations,function (res) {
+            var max = _.max(reservations,function (res) {
                 return res.id;
             }).id;
+            return max || 1;
         };
 
         var create = function (reservation) {
