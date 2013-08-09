@@ -1,8 +1,8 @@
 /*global _,$,angular */
 
 angular.module('project.controllers')
-    .controller('applicationController', ['$scope', 'reservations', 'resources', 'users', '$rootScope', 'filterData',
-        function ($scope, reservations, resources, users, $rootScope, filterData) {
+    .controller('applicationController', ['$scope', 'reservations', 'resources', 'users', '$rootScope', 'filterData', 'applicationConfig',
+        function ($scope, reservations, resources, users, $rootScope, filterData, applicationConfig) {
         "use strict";
 
         loadReservations();
@@ -10,14 +10,19 @@ angular.module('project.controllers')
         $scope.users = users.get();
         $scope.resources = resources.get();
 
+        $scope.userSelectorOptions = applicationConfig.userSelectorOptions();
+        $scope.resourceSelectorOptions = applicationConfig.resourceSelectorOptions();
+
         $scope.reservationSelector = function (reservation) {
             var ret = true;
-            if ($scope.resource) {
-                ret = ret && reservation.resource_id === $scope.resource.id;
+            var resource = filterData.getResource();
+            var user = filterData.getUser();
+            if (resource) {
+                ret = ret && reservation.resource_id === resource.id;
             }
 
-            if ($scope.user) {
-                ret = ret && reservation.user_id === $scope.user.id;
+            if (user) {
+                ret = ret && reservation.user_id === user.id;
             }
 
             return ret;
@@ -33,12 +38,14 @@ angular.module('project.controllers')
             });
         });
 
-        $scope.$watch('user', function(user){
+        $scope.$watch('userId', function(user_id){
+            var user = users.find(user_id);
             filterData.setUser(user);
             $rootScope.$broadcast('filterReservations');
         });
             
-        $scope.$watch('resource', function(resource){
+        $scope.$watch('resourceId', function(resource_id){
+            var resource = resources.find(resource_id);
             filterData.setResource(resource);
             $rootScope.$broadcast('filterReservations');
         });

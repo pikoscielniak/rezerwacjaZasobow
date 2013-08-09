@@ -15,6 +15,7 @@ angular.module('project.services')
         };
 
         var find = function (user_id) {
+            user_id = parseInt(user_id, 10);
             return _.find(users, function (user) {
                 return user.id === user_id;
             });
