@@ -6,12 +6,9 @@
         </p>
 
         <p>
-            <select data-bind="value: user_id">
-                <option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</option>
+            <select data-bind="value: user_id" kendo-drop-down-list k-data-source="users" k-options="selectorOptions" k-option-label="'Wybierz użytkownika'">
             </select>
-            <select name="resource" data-bind="value: resource_id">
-                <!--<option ng-repeat="res in resources" value="{{res.id}}" ng-selected="resourceSelected(res.id)">{{res.name}}</option>-->
-                <option ng-repeat="res in resources" value="{{res.id}}">{{res.name}}</option>
+            <select data-bind="value: resource_id" kendo-drop-down-list k-data-source="resources" k-options="selectorOptions" k-option-label="'Wybierz zasób'">
             </select>
         </p>
         <p>

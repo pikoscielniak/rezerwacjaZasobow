@@ -19,13 +19,15 @@ angular.module('project.controllers')
             };
         };
 
+        $scope.selectorOptions = schedulerConfig.selectorOptions;
+
         $scope.schedulerOptions = schedulerConfig.getSchedulerOptions(refreshCallback(reservations.save), refreshCallback(reservations.destroy));
 
         $scope.$on('filterReservations', function (e) {
             refreshScheduler();
         });
 
-        $scope.$on('refresh', function(e, value){
+        $scope.$on('refresh', function(e){
             refreshScheduler();
         });
 

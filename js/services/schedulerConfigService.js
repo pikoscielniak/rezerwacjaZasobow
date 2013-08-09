@@ -38,8 +38,8 @@ angular.module('project.services')
 
         var views = function(){
             return [
-                "day",
-                "week",
+                {type: "day", startTime: new Date("2013/6/6 08:00"), endTime: new Date("2013/6/6 18:00")},
+                {type: "week", startTime: new Date("2013/6/6 08:00"), endTime: new Date("2013/6/6 18:00")},
                 {type: "month", selected: true }
             ];
         };
@@ -72,7 +72,7 @@ angular.module('project.services')
             return {
                 allDaySlot: true,
                 date: today,
-                height: 500,
+                height: 600,
                 editable: {
                     confirmation: "Czy jesteś pewien?",
                     template: getTemplate
@@ -96,9 +96,15 @@ angular.module('project.services')
             };
         };
 
+        var selectorOptions = {
+            dataTextField: "name",
+            dataValueField: "id"
+        };
+
         return {
             getSchedulerOptions: getSchedulerOptions,
-            generateSchedulerDataSource: generateSchedulerDataSource
+            generateSchedulerDataSource: generateSchedulerDataSource,
+            selectorOptions : selectorOptions
         };
     }]);
 
