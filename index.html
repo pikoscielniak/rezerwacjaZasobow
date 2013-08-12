@@ -3,26 +3,33 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Rezerwacja zasobów</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link href="css/kendo.common.min.css" rel="stylesheet">
-    <link href="css/kendo.default.min.css" rel="stylesheet">
+
     <script src="js/lib/jquery.js"></script>
-    <script src="js/lib/bootstrap.min.js"></script>
     <script src="js/lib/angular.js"></script>
+    <script src="js/lib/underscore.min.js"></script>
+
+    <!-- bootstrap -->
+    <script src="js/lib/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+    <!-- kendo -->
     <script src="js/lib/kendo.all.min.js"></script>
     <script src="js/lib/cultures/kendo.culture.pl-PL.min.js"></script>
     <script src="js/lib/angular-kendo.js"></script>
-    <script src="js/lib/underscore.min.js"></script>
+    <link href="css/kendo.common.min.css" rel="stylesheet">
+    <link href="css/kendo.default.min.css" rel="stylesheet">
 
     <!-- dhx scheduler -->
     <script src="js/lib/dhtmlxscheduler.js" type="text/javascript"></script>
     <script src="js/lib/cultures/dhx.locale_pl.js" type="text/javascript"></script>
     <link rel="stylesheet" href="css/dhxtml/dhtmlxscheduler.css" type="text/css">
 
+    <!-- angular application -->
     <script src="js/app.js"></script>
     <script src="js/controllers/applicationController.js"></script>
     <script src="js/controllers/kendoSchedulerController.js"></script>
     <script src="js/controllers/dhxSchedulerController.js"></script>
+    <script src="js/controllers/eventsListController.js"></script>
     <script src="js/services/reservationsService.js"></script>
     <script src="js/services/usersService.js"></script>
     <script src="js/services/resourcesService.js"></script>
@@ -30,16 +37,20 @@
     <script src="js/services/dhxSchedulerConfigService.js"></script>
     <script src="js/services/filterDataService.js"></script>
     <script src="js/services/applicationConfigService.js"></script>
+    <script src="js/directives/whenScrolledDirective.js"></script>
     <script type="text/javascript">
         kendo.culture("pl-PL");
     </script>
+
+    <!-- my css and js -->
+    <link href="css/eventsList.css" rel="stylesheet" />
 </head>
 <body>
 <div class="container">
     <div class="row">
         <h1>Rezerwacja zasobów</h1>
         <a href="#/kendoScheduler">kendo scheduler</a> |
-        <a href="#/eventsCalendar">events calendar</a> |
+        <a href="#/eventsList">eventsList</a> |
         <a href="#/dhxScheduler">dhx Scheduler</a> |
     </div>
 

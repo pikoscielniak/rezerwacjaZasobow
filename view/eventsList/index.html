@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-lg-6 col-offset-3">
+        <div class="events-list" when-scrolled="loadMore()">
+            <div class="list-group">
+                <a ng-repeat="reservation in reservations" class="list-group-item" ng-click="showDetails(reservation)" id="reservation-{{ reservation.id }}">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <h5>{{ reservation.title }} <small>{{ reservation.user_name }}</small></h4>
+                        </div>
+                        <div class="col-lg-5 info">
+                            <p class="dates">
+                                <strong>start: </strong>{{ reservation.start | date:'dd/MM/yy HH:mm' }}<br>
+                                <strong>end: </strong>{{ reservation.end | date:'dd/MM/yy HH:mm' }}<br>
+                            </p>
+                        </div>
+                        <div class="col-lg-12 details">
+                            <p>
+                                <strong>id: </strong>{{ reservation.id }}
+                            </p>
+                            <p>
+                                <strong>opis: </strong>{{ reservation.description }}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <a class="list-group-item loader" ng-show="loading"><img src="css/images/loader.gif" title="loading"/></a>
+            </div>
+        </div>
+    </div>
+</div>
