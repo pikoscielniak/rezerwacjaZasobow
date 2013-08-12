@@ -1,13 +1,12 @@
 /*global angular*/
 
-var app = angular.module('project', ['kendo.directives', 'project.controllers', 'project.services']).
+var app = angular.module('project', ['kendo.directives', 'project.controllers', 'project.services', 'project.filters']).
     config(function ($routeProvider, $locationProvider) {
         "use strict";
 
         $routeProvider.
             when("/", {controller: 'kendoSchedulerController', templateUrl: "view/kendoScheduler/index.html"}).
             when("/kendoScheduler", {controller: 'kendoSchedulerController', templateUrl: "view/kendoScheduler/index.html"}).
-            when("/eventsCalendar", {controller: 'eventsCalendarController', templateUrl: "view/eventsCalendar/index.html"}).
             when("/dhxScheduler", {controller: 'dhxSchedulerController', templateUrl: "view/dhxScheduler/index.html"}).
             otherwise({redirectTo: "/"});
 
