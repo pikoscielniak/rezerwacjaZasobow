@@ -1,31 +1,29 @@
 /*global _,$,angular,scheduler */
 
 angular.module('project.controllers')
-    .controller('eventsListController', ['$scope', 'reservations', 'dhxSchedulerConfig', '$rootScope', 'resources', 'filterData',
-        function ($scope, reservations, dhxSchedulerConfig, $rootScope, resources, filterData) {
+    .controller('eventsListController', ['$scope', 'reservations', 'dhxSchedulerConfig', '$rootScope', 'resources', 'filterData', '$q',
+        function ($scope, reservations, dhxSchedulerConfig, $rootScope, resources, filterData, $q) {
             "use strict";
 
             $scope.reservations = reservations.get();
 
-            $scope.showDetails = function(reservation){
-                $("#reservation-"+reservation.id+" .details").slideToggle();
-            };
-
             $scope.loading = false;
 
             $scope.loadMore = function() {
-                if($scope.loading){
-                    return;
-                } else {
-                    $scope.loading = true;
-                    setTimeout(function(){
-                        $scope.$apply(function(){
-                            var reservation = reservations[0];
-                            $scope.reservations.push({id: "7",title:"Nowa rezerwacja", user_name: "Franek", "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", description: "lorem ipsum"});
-                            $scope.loading = false;
-                        });
-                    },1000);
-                }
+                var deferred = $q.defer();
+
+                setTimeout(function(){
+                    $scope.$apply(function(){
+                        if(Math.random() < 0.8) {
+                            var reservation = {title:"Nowa rezerwacja", user_id: 1, resource_id: 1, "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", description: "lorem ipsum"};
+                            deferred.resolve(reservations.save(reservation));
+                        } else {
+                            deferred.reject("Math.rand() > 0.8");
+                        }
+                    });
+                },1000);
+
+                return deferred.promise;
             };
 
 //            debugger;

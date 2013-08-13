@@ -1,0 +1,9 @@
+<div class="left">
+    <h5>{{ obj.title }} <small>{{ obj.user_name }}</small></h5>
+</div>
+<div class="right">
+    <p class="dates">
+        <strong>start: </strong>{{ obj.start | date:'dd/MM/yy HH:mm' }}<br>
+        <strong>end: </strong>{{ obj.end | date:'dd/MM/yy HH:mm' }}<br>
+    </p>
+</div>

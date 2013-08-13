@@ -1,0 +1,13 @@
+<div class="list-view">
+    <div ng-repeat="obj in data" class="list-item" ng-click="showDetails($index)">
+        <div class="info">
+            <div ng-include src="infoTemplateUrl"></div>
+        </div>
+        <div class="details">
+            <div ng-include src="detailsTemplateUrl"></div>
+        </div>
+    </div>
+    <div class="list-item loader" ng-show="loading">
+        <img src="css/images/loader.gif" title="loading"/>
+    </div>
+</div>

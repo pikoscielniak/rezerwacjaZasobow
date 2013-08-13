@@ -8,7 +8,7 @@ var app = angular.module('project', ['kendo.directives', 'project.controllers', 
             when("/", {controller: 'kendoSchedulerController', templateUrl: "view/kendoScheduler/index.html"}).
             when("/kendoScheduler", {controller: 'kendoSchedulerController', templateUrl: "view/kendoScheduler/index.html"}).
             when("/dhxScheduler", {controller: 'dhxSchedulerController', templateUrl: "view/dhxScheduler/index.html"}).
-            when("/eventsList", {controller: 'eventsListController', templateUrl: "view/eventsList/index.html"}).
+            when("/listView", {controller: 'eventsListController', templateUrl: "view/listView/index.html"}).
             otherwise({redirectTo: "/"});
 
 //        $locationProvider.html5Mode(true);

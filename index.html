@@ -26,10 +26,12 @@
 
     <!-- angular application -->
     <script src="js/app.js"></script>
+        <!-- controllers -->
     <script src="js/controllers/applicationController.js"></script>
     <script src="js/controllers/kendoSchedulerController.js"></script>
     <script src="js/controllers/dhxSchedulerController.js"></script>
     <script src="js/controllers/eventsListController.js"></script>
+        <!-- services -->
     <script src="js/services/reservationsService.js"></script>
     <script src="js/services/usersService.js"></script>
     <script src="js/services/resourcesService.js"></script>
@@ -37,20 +39,23 @@
     <script src="js/services/dhxSchedulerConfigService.js"></script>
     <script src="js/services/filterDataService.js"></script>
     <script src="js/services/applicationConfigService.js"></script>
-    <script src="js/directives/whenScrolledDirective.js"></script>
-    <script type="text/javascript">
-        kendo.culture("pl-PL");
-    </script>
+        <!-- directives -->
+    <script src="js/directives/listViewDirective.js"></script>
 
     <!-- my css and js -->
     <link href="css/listView.css" rel="stylesheet" />
+
+    <!-- kendo culture -->
+    <script type="text/javascript">
+        kendo.culture("pl-PL");
+    </script>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <h1>Rezerwacja zasobów</h1>
         <a href="#/kendoScheduler">kendo scheduler</a> |
-        <a href="#/eventsList">eventsList</a> |
+        <a href="#/listView">eventsList</a> |
         <a href="#/dhxScheduler">dhx Scheduler</a> |
     </div>
 
