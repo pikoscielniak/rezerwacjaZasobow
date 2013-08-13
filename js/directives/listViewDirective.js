@@ -33,7 +33,7 @@ angular.module('project.directives')
 //                            $scope.data.push(obj);
                             $scope.loading = false;
                         }, function(error) {
-                            again = typeof again !== 'undefined' ? again : 1;
+                            again = again || 1;
                             setTimeout(function(){
                                 $scope.loading = false;
                                 $scope.loadNextItem(loadNext, again*2);
