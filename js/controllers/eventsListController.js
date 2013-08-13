@@ -13,7 +13,6 @@ angular.module('project.controllers')
 
             $scope.loading = false;
 
-
             $scope.loadMore = function() {
                 if($scope.loading){
                     return;
@@ -22,11 +21,20 @@ angular.module('project.controllers')
                     setTimeout(function(){
                         $scope.$apply(function(){
                             var reservation = reservations[0];
-                            $scope.reservations.push({title:"Nowa rezerwacja", user_name: "Franek", "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z"});
+                            $scope.reservations.push({id: "7",title:"Nowa rezerwacja", user_name: "Franek", "start": "2013-08-01T15:00:00.000Z", "end": "2013-08-01T18:00:00.000Z", description: "lorem ipsum"});
                             $scope.loading = false;
                         });
                     },1000);
                 }
             };
+
+//            debugger;
+//            var childrenHeight;
+//            do {
+//                childrenHeight = 0;
+//                $(".list-view").children().each(function(){
+//                    childrenHeight += $(this).height();
+//                });
+//            } while($(".list-view").height() < childrenHeight);
 
         }]);
