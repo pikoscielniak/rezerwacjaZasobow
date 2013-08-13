@@ -21,9 +21,29 @@ angular.module('project.services')
             });
         };
 
+        var maxId = function () {
+            var max = _.max(resources,function (res) {
+                return res.id;
+            }).id;
+            return max || 1;
+        };
+
+        var count = 0;
+        var generate = function(){
+            var newResource = {
+                id: maxId()+1,
+                name: "zasób nr "+count,
+                color: "#"+(Math.floor((Math.random()*16777216))).toString(16)
+            };
+            count += 1;
+            resources.push(newResource);
+            return newResource;
+        };
+
         return {
             get: get,
-            find: find
+            find: find,
+            generate: generate
         };
     });
 
