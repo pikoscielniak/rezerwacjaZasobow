@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-6 col-offset-3">
+    <div class="col-lg-6 col-offset-2">
         <div list-view
              data="resources"
              load-next="loadMore()"
@@ -8,5 +8,14 @@
              details-template-url="view/resourcesList/templates/details.html">
 
         </div>
+    </div>
+
+    <div class="col-lg-4">
+        <form>
+            <label>nazwa:</label><input type="text" ng-model="resource.name" /><br>
+            <label>opis:</label><input type="text" ng-model="resource.description" /><br>
+            <label>kolor:</label><input type="text" ng-model="resource.color" kendo-color-picker />
+            <input type="submit" name="asd" ng-click="addResource()"/>
+        </form>
     </div>
 </div>

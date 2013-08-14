@@ -30,6 +30,12 @@ angular.module('project.controllers')
                 return deferred.promise;
             };
 
+            $scope.resource = {};
+
+            $scope.addResource = function(){
+                resources.create($scope.resource);
+            };
+
 
 
         }]);
