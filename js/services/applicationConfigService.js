@@ -4,47 +4,25 @@ angular.module('project.services')
     .factory('applicationConfig', ['resources', 'users', 'filterData', function(resources, users, filterData){
         "use strict";
 
-        var defaultSelectorOptions = function(){
+        var selectorOptions = function(optionLabel, url){
             return {
                 dataTextField: "name",
-                dataValueField: "_id"
-            };
-        };
-
-        var userSelectorOptions = function(){
-            var options = defaultSelectorOptions();
-            options.optionLabel = "Wszyscy użytkownicy";
-            options.dataSource = {
-                serverFiltering: true,
-                transport: {
-                    read: {
-                        dataType: "json",
-                        url: "http://localhost:3000/users",
-                        cache: false
+                dataValueField: "_id",
+                optionLabel: optionLabel,
+                dataSource: {
+                    transport: {
+                        read: {
+                            dataType: "json",
+                            url: url,
+                            cache: false
+                        }
                     }
                 }
             };
-
-            return options;
         };
 
-        var resourceSelectorOptions = function(){
-            var options = defaultSelectorOptions();
-            options.optionLabel = "Wszystkie zasoby";
-            options.dataSource = {
-                serverFiltering: true,
-                transport: {
-                    read: {
-                        dataType: "json",
-                        url: "http://localhost:3000/resources",
-                        cache: false
-                    }
-                }
-            };
-
-            return options;
-        };
-
+        var userSelectorOptions = selectorOptions("Wszyscy użytkownicy", "http://localhost:3000/users");
+        var resourceSelectorOptions = selectorOptions("Wszystkie zasoby", "http://localhost:3000/resources");
 
         return {
             userSelectorOptions: userSelectorOptions,

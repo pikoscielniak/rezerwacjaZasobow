@@ -16,6 +16,7 @@
     <script src="js/lib/kendo.all.min.js"></script>
     <script src="js/lib/cultures/kendo.culture.pl-PL.min.js"></script>
     <script src="js/lib/angular-kendo.js"></script>
+    <script src="js/lib/kendo.timezones.min.js"></script>
     <link href="css/kendo.common.min.css" rel="stylesheet">
     <link href="css/kendo.default.min.css" rel="stylesheet">
 
@@ -65,10 +66,8 @@
     <div class="row" ng-controller="applicationController">
         <div class="col-lg-3">
             <div class="row">
-                <select kendo-drop-down-list k-options="userSelectorOptions" ng-model="userId">
-                </select>
-                <select kendo-drop-down-list k-options="resourceSelectorOptions"  ng-model="resourceId">
-                </select>
+                <input kendo-drop-down-list k-options="userSelectorOptions" ng-model="user">
+                <input kendo-drop-down-list k-options="resourceSelectorOptions"  ng-model="resource">
             </div>
             <div class="row">
                 <div ng-include src="'view/table/index.html'"></div>

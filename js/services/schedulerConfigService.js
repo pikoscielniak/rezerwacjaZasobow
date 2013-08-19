@@ -6,36 +6,6 @@ angular.module('project.services')
 
         var today = new Date(kendo.format('{0:MM-dd-yyyy}', new Date()));
 
-        var parseDate = function (d) {
-            return new Date(d);
-        };
-
-        var dataSourceSchema = function(){
-            return {
-                model: {
-                    id: "id",
-                    fields: {
-                        id: { type: "number", validation: { required: true } },
-                        title: { defaultValue: "No title", validation: { required: true } },
-                        start: { type: "date", parse: parseDate, validation: { required: true }},
-                        end: { type: "date", parse: parseDate, validation: { required: true }},
-                        user_id: {type: "number", validation: { required: true }},
-                        user_name: {type: "string", validation: { required: true }},
-                        resource_id: {type: "number", validation: { required: true }},
-                        resource_name: {type: "string", validation: { required: true }},
-                        description: {type: "string", validation: { required: true }}
-                    }
-                }
-            };
-        };
-
-//        var generateSchedulerDataSource = function(){
-//            return new kendo.data.SchedulerDataSource({
-//                data: reservations.where({user: filterData.getUser(), resource: filterData.getResource()}),
-//                schema: dataSourceSchema()
-//            });
-//        };
-
         var views = function(){
             return [
                 {type: "day", startTime: new Date("2013/6/6 08:00"), endTime: new Date("2013/6/6 18:00")},
@@ -47,24 +17,23 @@ angular.module('project.services')
         var getResources = function(){
             return [
                 {
-                    field: "resource_id",
+                    field: "resource._id",
                     dataTextField: "name",
-                    dataValueField: "id",
-                    dataSource: resources.get()
+                    dataValueField: "_id",
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "http://localhost:3000/resources",
+                                dataType: "json",
+                                cache: false
+                            }
+                        }
+                    }
                 }
             ];
         };
 
         var getTemplate = function () {
-//            debugger;
-//                var html = $compile($("#scheduler-editor").html())($scope);
-//                $("#scheduler-editor").html("");
-//                $("#scheduler-editor").find("option[value='"+($scope.resource && $scope.resource.id)+"']").attr("selected","selected");
-//            var sel = $("#scheduler-editor").find("select[name='resource']");
-//                console.log(sel);
-//            sel.val($scope.resource && $scope.resource.id);
-//                $("#scheduler-editor").find('select[name="resource"]').find('option[value="'+($scope.resource && $scope.resource.id)+'"]').attr("selected",true);
-
             return $("#scheduler-editor").html();
         };
 
@@ -80,8 +49,8 @@ angular.module('project.services')
                 eventTemplate: $("#event-template").html(),
                 majorTick: 30,
                 minorTickCount: 2,
+                timezone: "Europe/Warsaw",
                 views: views(),
-                timezone: "Etc/UTC",
 
                 dataSource: {
                     transport: {
@@ -105,11 +74,10 @@ angular.module('project.services')
                             dataType: "json",
                             method: "post"
                         }
-
                     }
                 },
 
-                resources: getResources(resources),
+                resources: getResources(),
 
                 save: function (e) {
                     e.model.reservation = {
@@ -118,8 +86,8 @@ angular.module('project.services')
                         description: e.model.description,
                         start: e.model.start,
                         end: e.model.end,
-                        user: e.model.user.value,
-                        resource: e.model.resource.value
+                        user: e.model.user.value || e.model.user._id,
+                        resource: e.model.resource.value || e.model.resource._id
                     };
                     return true;
                 },
@@ -132,14 +100,26 @@ angular.module('project.services')
             };
         };
 
-        var selectorOptions = {
-            dataTextField: "name",
-            dataValueField: "_id"
+        var selectorOptions = function(optionLabel, url){
+            return {
+                dataTextField: "name",
+                dataValueField: "_id",
+                optionLabel: optionLabel,
+                dataSource: {
+                    transport: {
+                        read: {
+                            dataType: "json",
+                            url: url,
+                            cache: false
+                        }
+                    }
+                }
+            };
         };
 
         return {
             getSchedulerOptions: getSchedulerOptions,
-            selectorOptions : selectorOptions
+            selectorOptions: selectorOptions
         };
     }]);
 

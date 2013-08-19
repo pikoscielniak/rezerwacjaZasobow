@@ -5,9 +5,6 @@ angular.module('project.controllers')
         function ($scope, reservations, resources, users, $rootScope, filterData, applicationConfig) {
         "use strict";
 
-        loadReservations();
-
-
          users.get().then(function(users) {
                 $scope.users = users;
             }, function(error) {
@@ -20,45 +17,44 @@ angular.module('project.controllers')
                 console.error(error);
             });
 
-        $scope.userSelectorOptions = applicationConfig.userSelectorOptions();
-        $scope.resourceSelectorOptions = applicationConfig.resourceSelectorOptions();
+         reservations.get().then(function(reservations) {
+                $scope.reservations = reservations;
+            }, function(error) {
+                console.error(error);
+            });
 
-//        $scope.reservationSelector = function (reservation) {
-//            var ret = true;
-//            var resource = filterData.getResource();
-//            var user = filterData.getUser();
-//            if (resource) {
-//                ret = ret && reservation.resource._id === resource._id;
-//            }
-//
-//            if (user) {
-//                ret = ret && reservation.user._id === user._id;
-//            }
-//
-//            return ret;
-//        };
+        $scope.userSelectorOptions = applicationConfig.userSelectorOptions;
+        $scope.resourceSelectorOptions = applicationConfig.resourceSelectorOptions;
 
-        function loadReservations() {
-                $scope.reservations = reservations.get();
-        }
+        $scope.reservationSelector = function (reservation) {
+            var ret = true;
+            var resource = filterData.getResource();
+            var user = filterData.getUser();
+            if (resource) {
+                ret = ret && reservation.resource._id === resource;
+            }
+
+            if (user) {
+                ret = ret && reservation.user._id === user;
+            }
+
+            return ret;
+        };
 
         $scope.$on('refresh', function (e) {
             $scope.$apply(function(){
-                loadReservations();
+//                reload table
             });
         });
 
-//        $scope.$watch('userId', function(user_id){
-//            debugger;
-//            var user = users.find(user_id);
-//            filterData.setUser(user);
-//            $rootScope.$broadcast('filterReservations');
-//        });
-//
-//        $scope.$watch('resourceId', function(resource_id){
-//            var resource = resources.find(resource_id);
-//            filterData.setResource(resource);
-//            $rootScope.$broadcast('filterReservations');
-//        });
+        $scope.$watch('user', function(user){
+            filterData.setUser(user);
+            $rootScope.$broadcast('filterReservations');
+        });
+
+        $scope.$watch('resource', function(resource){
+            filterData.setResource(resource);
+            $rootScope.$broadcast('filterReservations');
+        });
 
     }]);
