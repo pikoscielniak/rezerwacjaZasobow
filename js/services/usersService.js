@@ -1,7 +1,7 @@
 /*global _,$,angular*/
 
 angular.module('project.services')
-    .factory('users', function(){
+    .factory('users',['$http', '$q', function($http, $q){
         "use strict";
 
         var users = [
@@ -11,13 +11,31 @@ angular.module('project.services')
         ];
 
         var get = function(){
-            return users;
+            var deferred = $q.defer();
+
+            $http.get("http://localhost:3000/users").
+                success(function(data){
+                    deferred.resolve(data);
+                }).error(function(){
+                    deferred.reject("Error loading users.");
+                });
+            return deferred.promise;
         };
 
         var find = function (user_id) {
+            var deferred = $q.defer();
+
+            $http.get("http://localhost:3000/user/"+user_id).
+                success(function(data){
+                    deferred.resolve(data);
+                }).error(function(){
+                    deferred.reject("User not found.");
+                });
+            return deferred.promise;
+
             user_id = parseInt(user_id, 10);
             return _.find(users, function (user) {
-                return user.id === user_id;
+                return user._id === user_id;
             });
         };
 
@@ -25,5 +43,5 @@ angular.module('project.services')
             get: get,
             find: find
         };
-    });
+    }]);
 

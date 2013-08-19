@@ -7,14 +7,24 @@ angular.module('project.services')
         var defaultSelectorOptions = function(){
             return {
                 dataTextField: "name",
-                dataValueField: "id"
+                dataValueField: "_id"
             };
         };
 
         var userSelectorOptions = function(){
             var options = defaultSelectorOptions();
             options.optionLabel = "Wszyscy użytkownicy";
-            options.dataSource = users.get();
+            options.dataSource = {
+                serverFiltering: true,
+                transport: {
+                    read: {
+                        dataType: "json",
+                        url: "http://localhost:3000/users",
+//                        data: options.getData,
+                        cache: false
+                    }
+                }
+            };
 
             return options;
         };

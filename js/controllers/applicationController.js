@@ -7,7 +7,15 @@ angular.module('project.controllers')
 
         loadReservations();
 
-        $scope.users = users.get();
+
+         users.get().then(function(users) {
+                $scope.$apply(function(){
+                    $scope.users = users;
+                });
+            }, function(error) {
+                console.error(error);
+            });
+
         $scope.resources = resources.get();
 
         $scope.userSelectorOptions = applicationConfig.userSelectorOptions();
