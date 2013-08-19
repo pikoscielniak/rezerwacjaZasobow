@@ -6,8 +6,8 @@ angular.module('project.controllers')
         "use strict";
 
         var refreshScheduler = function() {
-            var dataSource = schedulerConfig.generateSchedulerDataSource();
-            $scope.scheduler.setDataSource(dataSource);
+//            var dataSource = schedulerConfig.generateSchedulerDataSource();
+//            $scope.scheduler.setDataSource(dataSource);
         };
 
         var refreshCallback = function(func){
@@ -23,12 +23,12 @@ angular.module('project.controllers')
 
         $scope.schedulerOptions = schedulerConfig.getSchedulerOptions(refreshCallback(reservations.save), refreshCallback(reservations.destroy));
 
-        $scope.$on('filterReservations', function (e) {
-            refreshScheduler();
-        });
+//        $scope.$on('filterReservations', function (e) {
+//            refreshScheduler();
+//        });
 
-        $scope.$on('refresh', function(e){
-            refreshScheduler();
-        });
+//        $scope.$on('refresh', function(e){
+//            refreshScheduler();
+//        });
 
     }]);

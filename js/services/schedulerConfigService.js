@@ -29,12 +29,12 @@ angular.module('project.services')
             };
         };
 
-        var generateSchedulerDataSource = function(){
-            return new kendo.data.SchedulerDataSource({
-                data: reservations.where({user: filterData.getUser(), resource: filterData.getResource()}),
-                schema: dataSourceSchema()
-            });
-        };
+//        var generateSchedulerDataSource = function(){
+//            return new kendo.data.SchedulerDataSource({
+//                data: reservations.where({user: filterData.getUser(), resource: filterData.getResource()}),
+//                schema: dataSourceSchema()
+//            });
+//        };
 
         var views = function(){
             return [
@@ -83,27 +83,62 @@ angular.module('project.services')
                 views: views(),
                 timezone: "Etc/UTC",
 
-                dataSource: generateSchedulerDataSource(),
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "http://localhost:3000/reservations",
+                            dataType: "json",
+                            cache: false
+                        },
+                        create: {
+                            url: "http://localhost:3000/reservation/new",
+                            dataType: "json",
+                            method: "post"
+                        },
+                        update: {
+                            url: "http://localhost:3000/reservation/update",
+                            dataType: "json",
+                            method: "post"
+                        },
+                        destroy: {
+                            url: "http://localhost:3000/reservation/delete",
+                            dataType: "json",
+                            method: "post"
+                        }
+
+                    }
+                },
 
                 resources: getResources(resources),
 
                 save: function (e) {
-                    saveReservation(e.model);
+                    e.model.reservation = {
+                        _id: e.model._id,
+                        title: e.model.title,
+                        description: e.model.description,
+                        start: e.model.start,
+                        end: e.model.end,
+                        user: e.model.user.value,
+                        resource: e.model.resource.value
+                    };
+                    return true;
                 },
                 remove: function (e) {
-                    removeReservation(e.event);
+                    e.event.reservation = {
+                        _id: e.event._id
+                    };
+                    return true;
                 }
             };
         };
 
         var selectorOptions = {
             dataTextField: "name",
-            dataValueField: "id"
+            dataValueField: "_id"
         };
 
         return {
             getSchedulerOptions: getSchedulerOptions,
-            generateSchedulerDataSource: generateSchedulerDataSource,
             selectorOptions : selectorOptions
         };
     }]);

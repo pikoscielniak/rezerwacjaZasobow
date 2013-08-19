@@ -20,7 +20,6 @@ angular.module('project.services')
                     read: {
                         dataType: "json",
                         url: "http://localhost:3000/users",
-//                        data: options.getData,
                         cache: false
                     }
                 }
@@ -32,7 +31,16 @@ angular.module('project.services')
         var resourceSelectorOptions = function(){
             var options = defaultSelectorOptions();
             options.optionLabel = "Wszystkie zasoby";
-            options.dataSource = resources.get();
+            options.dataSource = {
+                serverFiltering: true,
+                transport: {
+                    read: {
+                        dataType: "json",
+                        url: "http://localhost:3000/resources",
+                        cache: false
+                    }
+                }
+            };
 
             return options;
         };
