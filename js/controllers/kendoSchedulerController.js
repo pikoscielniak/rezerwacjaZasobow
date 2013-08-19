@@ -22,8 +22,6 @@ angular.module('project.controllers')
             };
         };
 
-        $scope.selectorOptions = schedulerConfig.selectorOptions;
-
         $scope.schedulerOptions = schedulerConfig.getSchedulerOptions(refreshCallback(reservations.save), refreshCallback(reservations.destroy));
 
         $scope.$on('filterReservations', function (e) {
@@ -33,11 +31,11 @@ angular.module('project.controllers')
             };
 
             if(filterData.getUser()){
-                filter.filters.push({field: "user._id", operator: "eq", value: filterData.getUser()});
+                filter.filters.push({field: "user", operator: "eq", value: filterData.getUser()});
             }
 
             if(filterData.getResource()){
-                filter.filters.push({field: "resource._id", operator: "eq", value: filterData.getResource()});
+                filter.filters.push({field: "resource", operator: "eq", value: filterData.getResource()});
             }
 
             $scope.scheduler.dataSource.filter(filter);

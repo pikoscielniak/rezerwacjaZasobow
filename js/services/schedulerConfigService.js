@@ -17,7 +17,7 @@ angular.module('project.services')
         var getResources = function(){
             return [
                 {
-                    field: "resource._id",
+                    field: "resource",
                     dataTextField: "name",
                     dataValueField: "_id",
                     dataSource: {
@@ -74,6 +74,20 @@ angular.module('project.services')
                             dataType: "json",
                             method: "post"
                         }
+                    },
+                    schema: {
+                        data: function(reservations) {
+                            if(reservations instanceof Array){
+                                _.each(reservations, function(reservation){
+                                    reservation.user = reservation.user._id;
+                                    reservation.resource = reservation.resource._id;
+                                });
+                            } else if(!(reservations instanceof String)) {
+                                reservations.user = reservations.user._id || reservations.user;
+                                reservations.resource = reservations.resource._id || reservations.resource;
+                            }
+                            return reservations;
+                        }
                     }
                 },
 
@@ -86,8 +100,8 @@ angular.module('project.services')
                         description: e.model.description,
                         start: e.model.start,
                         end: e.model.end,
-                        user: e.model.user.value || e.model.user._id,
-                        resource: e.model.resource.value || e.model.resource._id
+                        user: e.model.user.value || e.model.user,
+                        resource: e.model.resource.value || e.model.resource
                     };
                     return true;
                 },
