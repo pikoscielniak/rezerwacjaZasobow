@@ -43,7 +43,7 @@ angular.module('project.services')
         var update = function (reservation) {
             var deferred = $q.defer();
 
-            $http.post("http://localhost:3000/resource/update", {reservation: reservation}).
+            $http.post("http://localhost:3000/reservation/update", {reservation: reservation}).
                 success(function(data){
                     deferred.resolve(data);
                 }).error(function(){
@@ -59,31 +59,26 @@ angular.module('project.services')
         var destroy = function (reservation) {
             var deferred = $q.defer();
 
-            $http.post("http://localhost:3000/resource/delete", {reservation: reservation}).
+            $http.post("http://localhost:3000/reservation/delete", {reservation: reservation}).
                 success(function(data){
                     deferred.resolve(data);
                 }).error(function(){
-                    deferred.reject("Cannon delete user.");
+                    deferred.reject("Cannot delete reservation.");
                 });
             return deferred.promise;
         };
 
-//        var where = function(properties){
-//            if(properties.user || properties.resource){
-//                var opt = {};
-//                if(properties.user){
-//                    opt.user_id = properties.user.id;
-//                }
-//
-//                if(properties.resource){
-//                    opt.resource_id = properties.resource.id;
-//                }
-//
-//                return _.where(reservations, opt);
-//            } else {
-//                return reservations;
-//            }
-//        };
+        var page = function(page) {
+            var deferred = $q.defer();
+
+            $http.get("http://localhost:3000/reservations?page="+page).
+                success(function(data){
+                    deferred.resolve(data);
+                }).error(function(){
+                    deferred.reject("Cannot delete reservation.");
+                });
+            return deferred.promise;
+        };
 
         return {
             get: get,
@@ -91,7 +86,7 @@ angular.module('project.services')
             update: update,
             create: create,
             destroy: destroy,
-            save: save
-//            where: where
+            save: save,
+            page: page
         };
     }]);
