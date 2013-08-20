@@ -6,11 +6,24 @@ angular.module('project.services')
 
         var today = new Date(kendo.format('{0:MM-dd-yyyy}', new Date()));
 
+        var current_month = today.getMonth();
+        var current_year = today.getFullYear();
+
         var views = function(){
             return [
-                {type: "day", startTime: new Date("2013/6/6 08:00"), endTime: new Date("2013/6/6 18:00")},
-                {type: "week", startTime: new Date("2013/6/6 08:00"), endTime: new Date("2013/6/6 18:00")},
-                {type: "month", selected: true }
+                {
+                    type: "day",
+                    startTime: new Date("2013/6/6 08:00"),
+                    endTime: new Date("2013/6/6 18:00")},
+                {
+                    type: "week",
+                    startTime: new Date("2013/6/6 08:00"),
+                    endTime: new Date("2013/6/6 18:00")},
+                {
+                    type: "month",
+                    eventHeight: 20,
+                    selected: true
+                }
             ];
         };
 
@@ -57,7 +70,11 @@ angular.module('project.services')
                         read: {
                             url: "http://localhost:3000/reservations",
                             dataType: "json",
-                            cache: false
+                            cache: false,
+                            data: {
+                                month: current_month,
+                                year: current_year
+                            }
                         },
                         create: {
                             url: "http://localhost:3000/reservation/new",
@@ -110,6 +127,16 @@ angular.module('project.services')
                         _id: e.event._id
                     };
                     return true;
+                },
+                dataBinding: function(e) {
+                    if(current_month !== this.date().getMonth() || current_year !== this.date().getFullYear()){
+                        current_month = this.date().getMonth();
+                        current_year = this.date().getFullYear();
+                        this.dataSource.read({
+                            month: current_month,
+                            year: current_year
+                        });
+                    }
                 }
             };
         };
