@@ -15,11 +15,12 @@ angular.module('project.directives')
                 loadingBuffer: "@"
             },
             controller : ['$scope', '$element', '$attrs', '$transclude', function($scope, $element, $attrs, $transclude){
-                var page = 0, end = false;
+                var page = 0;
                 var raw = $element[0].children[0];
 
                 $scope.data = [];
                 $scope.loading = false;
+                $scope.end = false;
 
                 $scope.showDetails = function(index){
                     $element.children().find(".list-item:eq("+index+")").children(".details").slideToggle();
@@ -28,7 +29,7 @@ angular.module('project.directives')
                 var loadNextSuccess = function (response) {
                     if (response === "") {
                         $scope.loading = false;
-                        end = true;
+                        $scope.end = true;
                     } else {
 
                         page += 1;
@@ -65,7 +66,7 @@ angular.module('project.directives')
                 };
 
                 $scope.load = function(again){
-                    if($scope.loading || end){
+                    if($scope.loading || $scope.end){
                         return;
                     } else {
                         loadNextItem(again);
