@@ -36,7 +36,19 @@ angular.module('project.services')
                 success(function(data){
                     deferred.resolve(data);
                 }).error(function(){
-                    deferred.reject("User not found.");
+                    deferred.reject("Cannot create resource.");
+                });
+            return deferred.promise;
+        };
+
+        var page = function(page) {
+            var deferred = $q.defer();
+
+            $http.get("http://localhost:3000/resources?page="+page).
+                success(function(data){
+                    deferred.resolve(data);
+                }).error(function(){
+                    deferred.reject("Cannot find resource page.");
                 });
             return deferred.promise;
         };
@@ -44,7 +56,8 @@ angular.module('project.services')
         return {
             get: get,
             find: find,
-            create: create
+            create: create,
+            page: page
         };
     }]);
 
