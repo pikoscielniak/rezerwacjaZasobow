@@ -5,6 +5,8 @@ angular.module('project.controllers')
         function ($scope, reservations, schedulerConfig, $rootScope, filterData) {
         "use strict";
 
+        $scope.filter = "";
+
         var refreshScheduler = function() {
 //            var dataSource = schedulerConfig.generateSchedulerDataSource();
 //            $scope.scheduler.setDataSource(dataSource);
@@ -39,6 +41,30 @@ angular.module('project.controllers')
             }
 
             $scope.scheduler.dataSource.filter(filter);
+        });
+
+        var filtered;
+        $scope.$watch('filter', function(){
+            if($scope.filter.length > 3){
+                var current_month = $scope.scheduler.date().getMonth();
+                var current_year = $scope.scheduler.date().getFullYear();
+                $scope.scheduler.dataSource.read({
+                    month: current_month,
+                    year: current_year,
+                    f: $scope.filter
+                });
+                filtered = true;
+            } else {
+                if(filtered){
+                    var current_month = $scope.scheduler.date().getMonth();
+                    var current_year = $scope.scheduler.date().getFullYear();
+                    $scope.scheduler.dataSource.read({
+                        month: current_month,
+                        year: current_year,
+                    });
+                    filtered = false;
+                }
+            }
         });
 
 //        $scope.$on('refresh', function(e){
