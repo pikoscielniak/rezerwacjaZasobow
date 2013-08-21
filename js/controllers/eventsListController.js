@@ -16,9 +16,7 @@ angular.module('project.controllers')
             };
 
             var filtered;
-            var waiting;
             $scope.$watch('filter', function(){
-                waiting = true;
                 var filter = $scope.filter;
 
                 $timeout(function(){
