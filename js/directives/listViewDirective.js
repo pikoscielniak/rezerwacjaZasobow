@@ -19,14 +19,13 @@ angular.module('project.directives')
                 var page = 0;
                 var raw = $element[0].children[0];
 
+                var data = [];
+                var filterFunc = function(obj){
+                    return true;
+                };
                 $scope.data = [];
                 $scope.loading = false;
                 $scope.end = false;
-
-                var reload = 0;
-
-                $scope.listView = $scope.listView || {};
-                $scope.listView.load = load;
 
                 $scope.showDetails = function(index){
                     $element.children().find(".list-item:eq("+index+")").children(".details").slideToggle();
@@ -37,19 +36,24 @@ angular.module('project.directives')
                         $scope.loading = false;
                         $scope.end = true;
                     } else {
+                        var gotFilteredData = false;
 
                         page += 1;
                         if (typeof response !== 'Array') {
                             response = [response];
                         }
                         _.each(response, function (obj) {
-                            $scope.data.push(obj);
+                            data.push(obj);
+                            gotFilteredData = gotFilteredData || filterFunc(obj);
                         });
+
+                        filter();
                         $scope.loading = false;
 
-                        if (raw.offsetHeight >= raw.scrollHeight) {
+                        if (raw.offsetHeight >= raw.scrollHeight || !gotFilteredData) {
                             loadNextItem($scope.loadNext);
                         }
+
                     }
                 };
 
@@ -71,15 +75,33 @@ angular.module('project.directives')
                     });
                 };
 
-                function load(again){
+                var load = function(again){
                     if($scope.loading || $scope.end){
                         return;
                     } else {
                         loadNextItem(again);
                     }
-                }
+                };
+
+                var reload = function(){
+                    data = [];
+                    load();
+                };
+
+                var filter = function(){
+                    $scope.data = _.filter(data, filterFunc);
+                };
 
                 $scope.load = load;
+
+                $scope.listView = $scope.listView || {};
+                $scope.listView.load = load;
+                $scope.listView.reload = reload;
+                $scope.listView.filter = filter;
+                $scope.listView.setFilter = function(userFilter){
+                    filterFunc = userFilter;
+                    filter();
+                };
 
                 load();
 

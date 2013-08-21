@@ -5,10 +5,14 @@ angular.module('project.controllers')
         function ($scope, reservations, dhxSchedulerConfig, $rootScope, resources, filterData, $q) {
             "use strict";
 
-            $scope.reservationsList = {};
-
             $scope.loadMore = function(page) {
                 return reservations.page(page);
+            };
+
+            $scope.changeFilter = function(){
+                $scope.reservationsList.setFilter(function(obj){
+                    return obj.title[0] === 'w';
+                });
             };
 
         }]);
