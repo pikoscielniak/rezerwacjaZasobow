@@ -25,6 +25,7 @@ angular.module('project.directives')
 
                 var reload = 0;
 
+                $scope.listView = $scope.listView || {};
                 $scope.listView.load = load;
 
                 $scope.showDetails = function(index){
