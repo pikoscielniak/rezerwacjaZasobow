@@ -9,6 +9,7 @@ angular.module('project.directives')
             templateUrl: 'view/listView/template.html',
 
             scope: {
+                listView: "=",
                 infoTemplateUrl: "@",
                 detailsTemplateUrl: "@",
                 loadNext: '&',
@@ -21,6 +22,10 @@ angular.module('project.directives')
                 $scope.data = [];
                 $scope.loading = false;
                 $scope.end = false;
+
+                var reload = 0;
+
+                $scope.listView.load = load;
 
                 $scope.showDetails = function(index){
                     $element.children().find(".list-item:eq("+index+")").children(".details").slideToggle();
@@ -65,15 +70,17 @@ angular.module('project.directives')
                     });
                 };
 
-                $scope.load = function(again){
+                function load(again){
                     if($scope.loading || $scope.end){
                         return;
                     } else {
                         loadNextItem(again);
                     }
-                };
+                }
 
-                $scope.load();
+                $scope.load = load;
+
+                load();
 
             }],
             link: function (scope, elem, attrs) {
