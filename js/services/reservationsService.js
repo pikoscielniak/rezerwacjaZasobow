@@ -71,7 +71,7 @@ angular.module('project.services')
         var page = function(page) {
             var deferred = $q.defer();
 
-            $http.get("http://localhost:3000/reservations?page="+page).
+            $http.get("http://localhost:3000/reservations", {params: {page: page}}).
                 success(function(data){
                     deferred.resolve(data);
                 }).error(function(){

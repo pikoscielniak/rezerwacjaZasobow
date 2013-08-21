@@ -26,7 +26,7 @@ angular.module('project.controllers')
 
         $scope.schedulerOptions = schedulerConfig.getSchedulerOptions(refreshCallback(reservations.save), refreshCallback(reservations.destroy));
 
-        $scope.$on('filterReservations', function (e) {
+        var filterScheduler = function(){
             var filter = {
                 logic: "and",
                 filters: []
@@ -40,28 +40,39 @@ angular.module('project.controllers')
                 filter.filters.push({field: "resource", operator: "eq", value: filterData.getResource()});
             }
 
+            _.each($scope.filter.split(' '), function(f){
+                if(f.length >= 2){
+                    var strFilter = {
+                        logic: "or",
+                        filters: [
+                            {field: "fullUser.name", operator: "contains", value: f},
+                            {field: "fullResource.name", operator: "contains", value: f},
+                            {field: "fullResource.description", operator: "contains", value: f},
+                            {field: "description", operator: "contains", value: f},
+                            {field: "title", operator: "contains", value: f}
+                        ]
+                    };
+
+                    filter.filters.push(strFilter);
+                }
+            });
+
+
             $scope.scheduler.dataSource.filter(filter);
+        };
+
+        $scope.$on('filterReservations', function (e) {
+            filterScheduler();
         });
 
         var filtered;
         $scope.$watch('filter', function(){
-            if($scope.filter.length > 3){
-                var current_month = $scope.scheduler.date().getMonth();
-                var current_year = $scope.scheduler.date().getFullYear();
-                $scope.scheduler.dataSource.read({
-                    month: current_month,
-                    year: current_year,
-                    f: $scope.filter
-                });
+            if($scope.filter.length >= 2){
+                filterScheduler();
                 filtered = true;
             } else {
                 if(filtered){
-                    var current_month = $scope.scheduler.date().getMonth();
-                    var current_year = $scope.scheduler.date().getFullYear();
-                    $scope.scheduler.dataSource.read({
-                        month: current_month,
-                        year: current_year,
-                    });
+                    filterScheduler();
                     filtered = false;
                 }
             }

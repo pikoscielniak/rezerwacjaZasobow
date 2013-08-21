@@ -96,10 +96,14 @@ angular.module('project.services')
                         data: function(reservations) {
                             if(reservations instanceof Array){
                                 _.each(reservations, function(reservation){
+                                    reservation.fullUser = _.clone(reservation.user);
+                                    reservation.fullResource = _.clone(reservation.resource);
                                     reservation.user = reservation.user._id;
                                     reservation.resource = reservation.resource._id;
                                 });
                             } else if(!(reservations instanceof String)) {
+                                reservations.fullUser = _.clone(reservations.user);
+                                reservations.fullResource = _.clone(reservations.resource);
                                 reservations.user = reservations.user._id || reservations.user;
                                 reservations.resource = reservations.resource._id || reservations.resource;
                             }
