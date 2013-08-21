@@ -1,8 +1,8 @@
 /*global _,$,angular */
 
 angular.module('project.controllers')
-    .controller('kendoSchedulerController', ['$scope', 'reservations', 'schedulerConfig', '$rootScope', 'filterData',
-        function ($scope, reservations, schedulerConfig, $rootScope, filterData) {
+    .controller('kendoSchedulerController', ['$scope', 'reservations', 'schedulerConfig', '$rootScope', 'filterData', '$timeout',
+        function ($scope, reservations, schedulerConfig, $rootScope, filterData, $timeout) {
         "use strict";
 
         $scope.filter = "";
@@ -67,19 +67,22 @@ angular.module('project.controllers')
 
         var filtered;
         $scope.$watch('filter', function(){
-            if($scope.filter.length >= 2){
-                filterScheduler();
-                filtered = true;
-            } else {
-                if(filtered){
-                    filterScheduler();
-                    filtered = false;
-                }
-            }
-        });
+            var filter = $scope.filter;
 
-//        $scope.$on('refresh', function(e){
-//            refreshScheduler();
-//        });
+            $timeout(function(){
+                if(filter === $scope.filter){
+                    if($scope.filter.length >= 2){
+                        filterScheduler();
+                        filtered = true;
+                    } else {
+                        if(filtered){
+                            filterScheduler();
+                            filtered = false;
+                        }
+                    }
+                }
+            }, 400);
+
+        });
 
     }]);
