@@ -10,6 +10,7 @@ var app = angular.module('project', ['kendo.directives', 'project.controllers', 
             when("/dhxScheduler", {controller: 'dhxSchedulerController', templateUrl: "view/dhxScheduler/index.html"}).
             when("/listView", {controller: 'eventsListController', templateUrl: "view/listView/index.html"}).
             when("/resourcesList", {controller: 'resourcesListController', templateUrl: "view/resourcesList/index.html"}).
+            when("/generate", {controller: 'generateDataController', templateUrl: "view/generate/index.html"}).
             otherwise({redirectTo: "/"});
 
 //        $locationProvider.html5Mode(true);

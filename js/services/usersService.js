@@ -28,9 +28,22 @@ angular.module('project.services')
             return deferred.promise;
         };
 
+        var create = function (user) {
+            var deferred = $q.defer();
+
+            $http.post("http://localhost:3000/user/new", {user: user}).
+                success(function(data){
+                    deferred.resolve(data);
+                }).error(function(){
+                    deferred.reject("User not found.");
+                });
+            return deferred.promise;
+        };
+
         return {
             get: get,
-            find: find
+            find: find,
+            create: create
         };
     }]);
 
