@@ -1,8 +1,8 @@
 /*global _,$,angular,scheduler */
 
 angular.module('project.controllers')
-    .controller('eventsListController', ['$scope', 'reservations', 'dhxSchedulerConfig', '$rootScope', 'resources', 'filterData', '$q',
-        function ($scope, reservations, dhxSchedulerConfig, $rootScope, resources, filterData, $q) {
+    .controller('eventsListController', ['$scope', 'reservations', '$timeout', '$rootScope', 'resources', 'filterData', '$q',
+        function ($scope, reservations, $timeout, $rootScope, resources, filterData, $q) {
             "use strict";
 
             $scope.filter = "";
@@ -16,16 +16,25 @@ angular.module('project.controllers')
             };
 
             var filtered;
+            var waiting;
             $scope.$watch('filter', function(){
-                if($scope.filter.length >= 2){
-                    $scope.reservationsList.reload();
-                    filtered = true;
-                } else {
-                    if(filtered){
-                        $scope.reservationsList.reload();
-                        filtered = false;
+                waiting = true;
+                var filter = $scope.filter;
+
+                $timeout(function(){
+                    if(filter === $scope.filter){
+                        if($scope.filter.length >= 2){
+                            $scope.reservationsList.reload();
+                            filtered = true;
+                        } else {
+                            if(filtered){
+                                $scope.reservationsList.reload();
+                                filtered = false;
+                            }
+                        }
                     }
-                }
+                }, 400);
+
             });
 
         }]);
