@@ -1,5 +1,7 @@
 <div class="row">
     <div class="col-lg-6 col-lg-offset-3">
+        Filtr<input type="text" ng-model="filter" />
+
         <div list-view="reservationsList"
              load-next="loadMore(page)"
              loading-buffer="40"
@@ -8,5 +10,4 @@
 
         </div>
     </div>
-    <button class="btn btn-default" ng-click="changeFilter()">Change filter</button>
 </div>

@@ -4,10 +4,10 @@ angular.module('project.services')
     .factory('reservations', ['resources', 'users', '$http', '$q', function(resources, users, $http, $q){
         "use strict";
 
-        var get = function(){
+        var get = function(filter){
             var deferred = $q.defer();
 
-            $http.get("http://localhost:3000/reservations").
+            $http.get("http://localhost:3000/reservations", {params: {f: filter}}).
                 success(function(data){
                     deferred.resolve(data);
                 }).error(function(){
@@ -53,7 +53,7 @@ angular.module('project.services')
         };
 
         var save = function (reservation) {
-            return create(newReservation);
+            return create(reservation);
         };
 
         var destroy = function (reservation) {
@@ -68,10 +68,10 @@ angular.module('project.services')
             return deferred.promise;
         };
 
-        var page = function(page) {
+        var page = function(page, filter) {
             var deferred = $q.defer();
 
-            $http.get("http://localhost:3000/reservations", {params: {page: page}}).
+            $http.get("http://localhost:3000/reservations", {params: {page: page, f: filter}}).
                 success(function(data){
                     deferred.resolve(data);
                 }).error(function(){

@@ -5,14 +5,27 @@ angular.module('project.controllers')
         function ($scope, reservations, dhxSchedulerConfig, $rootScope, resources, filterData, $q) {
             "use strict";
 
+            $scope.filter = "";
+
             $scope.loadMore = function(page) {
-                return reservations.page(page);
+                var filter;
+                if($scope.filter.length >= 2){
+                    filter = $scope.filter;
+                }
+                return reservations.page(page, filter);
             };
 
-            $scope.changeFilter = function(){
-                $scope.reservationsList.setFilter(function(obj){
-                    return obj.title[0] === 'w';
-                });
-            };
+            var filtered;
+            $scope.$watch('filter', function(){
+                if($scope.filter.length >= 2){
+                    $scope.reservationsList.reload();
+                    filtered = true;
+                } else {
+                    if(filtered){
+                        $scope.reservationsList.reload();
+                        filtered = false;
+                    }
+                }
+            });
 
         }]);
