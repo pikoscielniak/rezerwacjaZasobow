@@ -1,7 +1,7 @@
 /*global angular*/
 
-var app = angular.module('project', ['kendo.directives', 'project.controllers', 'project.services', 'project.filters', 'project.directives']).
-    config(function ($routeProvider, $locationProvider) {
+var app = angular.module('project', ['kendo.directives', 'project.controllers', 'project.services', 'project.filters', 'project.directives', 'eDokument.calendar']).
+    config(function ($routeProvider) {
         "use strict";
 
         $routeProvider.
@@ -11,6 +11,7 @@ var app = angular.module('project', ['kendo.directives', 'project.controllers', 
             when("/listView", {controller: 'eventsListController', templateUrl: "view/listView/index.html"}).
             when("/resourcesList", {controller: 'resourcesListController', templateUrl: "view/resourcesList/index.html"}).
             when("/generate", {controller: 'generateDataController', templateUrl: "view/generate/index.html"}).
+            when("/eDokumentCalendar", {controller: 'eDocumentCalendarController', templateUrl: "view/calendar/index.html"}).
             otherwise({redirectTo: "/"});
 
 //        $locationProvider.html5Mode(true);
