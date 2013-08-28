@@ -19,7 +19,12 @@ module.exports = function(config) {
           'lib/angular.js',
           'lib/kendo.all.min.js',
           'lib/angular-kendo.js',
-          'test/karma.spec.js'
+          'test/*.js',
+          'app.js',
+          'controllers/*.js',
+          'services/*.js',
+          'directives/*.js'
+
       ],
 
 
